@@ -1,6 +1,6 @@
 {
   "name": "git-glob-cp",
-  "version": "0.0.0-pre.1",
+  "version": "0.0.0",
   "description": "glob-aware two-way copying for git",
   "type": "module",
   "bin": "./src/main/js/cli.js",
@@ -8,6 +8,7 @@
     ".": "./src/main/js/index.js"
   },
   "scripts": {
+    "docs": "mkdir -p docs && cp ./README.md ./docs/README.md",
     "test": "c8 uvu ./src/test -i fixtures -i utils && c8 report -r lcov"
   },
   "repository": {
