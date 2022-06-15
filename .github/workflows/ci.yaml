@@ -70,7 +70,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          persist-credentials: false
+          fetch-depth: 0
+          ref: master
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
