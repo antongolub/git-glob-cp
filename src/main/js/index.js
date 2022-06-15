@@ -91,3 +91,7 @@ const synchronize = async ({
     ]),
   )
 }
+
+export const ggcp = copy
+
+export const gitGlobCopy = copy

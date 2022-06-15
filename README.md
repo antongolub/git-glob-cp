@@ -20,7 +20,12 @@ git-glob-copy git@github.com:antongolub/tsc-esm-fix.git/master/*.json temp
 
 # Push `json` files from local `temp` dir to remote `test` branch
 git-glob-copy *.json git@github.com:antongolub/tsc-esm-fix.git/master/json
+
+# Push from repo to repo
+ggcp git@github.com:antongolub/tsc-esm-fix.git/master/foo/*.txt git@github.com:antongolub/git-glob-copy.git/master/bar
 ```
+`ggcp` is an alias for `git-glob-copy`
+
 | Flag | Description    | Default       |
 |------|----------------|---------------|
 | `-m` | Commit message | `chore: sync` |

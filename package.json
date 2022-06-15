@@ -1,9 +1,13 @@
 {
   "name": "git-glob-cp",
+  "alias": "ggcp",
   "version": "0.0.0",
   "description": "glob-aware two-way copying for git",
   "type": "module",
-  "bin": "./src/main/js/cli.js",
+  "bin": {
+    "git-glob-cp": "./src/main/js/cli.js",
+    "ggcp": "./src/main/js/cli.js"
+  },
   "exports": {
     ".": "./src/main/js/index.js"
   },
