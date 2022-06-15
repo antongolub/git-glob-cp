@@ -94,13 +94,18 @@ jobs:
 #          coverageLocations: |
 #            ${{github.workspace}}/coverage/*.lcov:lcov
 
+      - name: Create .npmrc
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> .npmrc
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GIT_AUTHOR_EMAIL: 'mailbox@antongolub.ru'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GIT_COMMITTER_EMAIL: 'mailbox@antongolub.ru'
-          GIT_AUTHOR_NAME: '@antongolub'
-          GIT_COMMITTER_NAME: '@antongolub'
-        run: npm_config_yes=true npx -p @qiwi/semrel-toolkit semantic-release
+          GIT_COMMITTER_NAME: 'antongolub'
+        run: npm_config_yes=true npx zx-semrel
