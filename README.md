@@ -2,6 +2,10 @@
 
 > git-glob-copy — glob-aware two-way copying for git
 
+[![Release](https://github.com/antongolub/git-glob-cp/workflows/CI/badge.svg)](https://github.com/antongolub/git-glob-cp/actions)
+[![Maintainability](https://api.codeclimate.com/v1/badges/2995a0e9d2a84bd4191f/maintainability)](https://codeclimate.com/github/antongolub/git-glob-cp/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/2995a0e9d2a84bd4191f/test_coverage)](https://codeclimate.com/github/antongolub/git-glob-cp/test_coverage)
+
 ## Requirements
 * Node.js >= 16
 
