@@ -18,7 +18,7 @@ export const copy = async (
 
   if (dst.repo) await fetch(dst, true)
 
-  await synchronize({
+  await copydir({
     baseFrom: src.base,
     from: src.pattern,
     baseTo: dst.base,
@@ -76,11 +76,11 @@ export const parse = (target, temp) => {
   }
 }
 
-const synchronize = async ({
+export const copydir = async ({
   from,
   to,
-  baseFrom,
-  baseTo,
+  baseFrom = process.cwd(),
+  baseTo = process.cwd(),
   debug = () => {},
 }) => {
   const cp = (src, dest) => {

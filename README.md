@@ -41,13 +41,23 @@ ggcp 'git@github.com:antongolub/tsc-esm-fix.git/master/foo/*.txt' git@github.com
 
 ### JS API
 ```js
-import { copy } from 'ggcp'
+import { copy, sync } from 'ggcp'
 
 const from = 'git@github.com:antongolub/tsc-esm-fix.git/master/*.json'
 const to = 'temp'
 const msg = 'updated'
 
+// Copy any to any
 await copy(from, to, msg)
+
+// Synchronizes dirs only
+await copydir({
+  from,       // Relative dir / glob pattern(s)
+  baseFrom,   // Base dir. Defaults to process.cwd()
+  to,         // Rel path.
+  baseTo,     // Base dir. Defaults to process.cwd()
+  debug,      // Debugger. Defauts to noop
+})
 ```
 
 ## License
