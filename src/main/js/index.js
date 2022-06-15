@@ -10,10 +10,15 @@ export const copy = async (
   const _from = parse(from)
   const _to = parse(to)
 
-  if (_to.glob) throw new Error('`dest` must not be a glob')
+  if (_to.glob || Array.isArray(to)) throw new Error('`dest` must not be a glob')
 
   if (_from.repo) await $`git clone --single-branch --branch ${_from.branch} --depth 1 ${_from.repo} ${_from.base}`
-  if (_to.repo) await $`git clone --single-branch --branch ${_to.branch} --depth 1 ${_to.repo} ${_to.base}`
+  try {
+    if (_to.repo) await $`git clone --single-branch --branch ${_to.branch} --depth 1 ${_to.repo} ${_to.base}`
+  } catch {
+    await $`git clone --depth 1 ${_to.repo} ${_to.base}`
+    console.warn(`ref ${_to.branch} does not exist in ${_to.repo}`)
+  }
 
   await synchronize({
     baseFrom: _from.base,
@@ -26,7 +31,14 @@ export const copy = async (
   if (_to.repo) {
     $.cwd = _to.base
     await $`git add .`
-    await $`git commit -m ${msg}`
+    try {
+      await $`git commit -m ${msg}`
+
+    } catch {
+      console.warn(`no changes to commit to ${to}`)
+      return
+    }
+
     await $.raw`git push origin HEAD:refs/heads/${_to.branch}`
   }
 })
@@ -36,7 +48,7 @@ export const parse = (target, temp) => {
 
   const base = repo
     ? temp || tempy.temporaryDirectory()
-    : target.startsWith('/')
+    : target.startsWith?.('/')
       ? '/'
       : process.cwd()
 
@@ -58,6 +70,8 @@ const synchronize = async ({
   baseTo,
   debug = () => {},
 }) => {
+
+
   const cp = (src, dest) => {
     debug('copy', 'from=', src, 'to=', dest)
     return fs.copy(src, dest)

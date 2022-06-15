@@ -3,4 +3,4 @@
 import {argv} from 'zx-extra'
 import {copy} from './index.js'
 
-await copy(argv._[0], argv._[1], argv.m)
+await copy(argv._.slice(0, -1), argv._.slice(-1)[0], argv.m)

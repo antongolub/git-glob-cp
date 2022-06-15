@@ -89,6 +89,16 @@ test('parse()', () => {
         repo: 'https://github.com/antongolub/tsc-esm-fix.git',
         branch: 'master'
       }
+    ],
+    [
+      'git@github.com:antongolub/git-glob-cp.git/test/test',
+      {
+        base: '<temp>',
+        pattern: 'test',
+        glob: false,
+        repo: 'git@github.com:antongolub/git-glob-cp.git',
+        branch: 'test'
+      }
     ]
   ]
 
