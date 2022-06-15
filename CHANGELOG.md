@@ -1,3 +1,11 @@
+## [1.4.0](https://github.com/antongolub/git-glob-cp/compare/v1.3.3...v1.4.0) (2022-06-15)
+
+### Features
+* feat: export `copydir` helper ([875a728](https://github.com/antongolub/git-glob-cp/commit/875a728cb6dc2a41ca0b386736b36d7ffa14ee7d))
+
+### Fixes & improvements
+* docs: add badges ([bcb5725](https://github.com/antongolub/git-glob-cp/commit/bcb5725b4daaa075b955ea4330f67a3fe050dace))
+
 ## [1.3.3](https://github.com/antongolub/git-glob-cp/compare/v1.3.2...v1.3.3) (2022-06-15)
 
 ### Fixes & improvements
