@@ -6,48 +6,53 @@ export const copy = async (
   from,
   to,
   msg = 'chore: sync',
-) => ctx(async ($) => {
+) => {
   if (!from || !to) throw new Error('Both `from` and `to` arguments are required')
 
-  const _from = parse(from)
-  const _to = parse(to)
+  const src = parse(from)
+  const dst = parse(to)
 
-  if (_to.glob) throw new Error('`dest` must not be a glob')
+  if (dst.glob) throw new Error('`dest` must not be a glob')
 
-  if (_from.repo) await $`git clone --single-branch --branch ${_from.branch} --depth 1 ${_from.repo} ${_from.base}`
+  if (src.repo) await fetch(src)
 
-  if (_to.repo) {
-    $.cwd = _to.base
-    try {
-      await $`git clone --single-branch --branch ${_to.branch} --depth 1 ${_to.repo} .`
-    } catch {
-      console.warn(`ref ${_to.branch} does not exist in ${_to.repo}`)
-      await $`git init`
-      await $`git remote add origin ${_to.repo}`
-    }
-  }
+  if (dst.repo) await fetch(dst, true)
 
   await synchronize({
-    baseFrom: _from.base,
-    from: _from.pattern,
-    baseTo: _to.base,
-    to: _to.pattern,
+    baseFrom: src.base,
+    from: src.pattern,
+    baseTo: dst.base,
+    to: dst.pattern,
     debug: $.verbose ? console.log : () => {},
   })
 
-  if (_to.repo) {
-    $.cwd = _to.base
-    await $`git add .`
-    try {
-      await $`git commit -m ${msg}`
+  if (dst.repo) await push(dst, msg)
+}
 
-    } catch {
-      console.warn(`no changes to commit to ${to}`)
-      return
-    }
-
-    await $.raw`git push origin HEAD:refs/heads/${_to.branch}`
+const fetch = (src, nothrow) => ctx(async ($) => {
+  $.cwd = src.base
+  try {
+    await $`git clone --single-branch --branch ${src.branch} --depth 1 ${src.repo} .`
+  } catch (e) {
+    if (!nothrow) throw (e)
+    console.warn(`ref ${src.branch} does not exist in ${src.repo}`)
+    await $`git init`
+    await $`git remote add origin ${src.repo}`
   }
+})
+
+const push = (dst, msg) => ctx(async ($) => {
+  $.cwd = dst.base
+  await $`git add .`
+  try {
+    await $`git commit -m ${msg}`
+
+  } catch {
+    console.warn(`no changes to commit to ${dst.raw}`)
+    return
+  }
+
+  await $.raw`git push origin HEAD:refs/heads/${dst.branch}`
 })
 
 export const parse = (target, temp) => {
@@ -67,6 +72,7 @@ export const parse = (target, temp) => {
     branch,
     pattern,
     glob: /[{}*,]/.test(pattern),
+    raw: target,
   }
 }
 

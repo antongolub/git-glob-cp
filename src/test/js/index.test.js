@@ -66,7 +66,8 @@ test('parse()', () => {
         pattern: './foo/bar',
         glob: false,
         repo: undefined,
-        branch: undefined
+        branch: undefined,
+        raw: './foo/bar'
       }
     ],
     [
@@ -76,7 +77,8 @@ test('parse()', () => {
         pattern: './foo/bar/**/*.js',
         glob: true,
         repo: undefined,
-        branch: undefined
+        branch: undefined,
+        raw: './foo/bar/**/*.js'
       }
     ],
     [
@@ -86,7 +88,8 @@ test('parse()', () => {
         pattern: 'foo/bar/**/*.js',
         glob: true,
         repo: 'git@github.com:antongolub/git-glob-cp.git',
-        branch: 'master'
+        branch: 'master',
+        raw: 'git@github.com:antongolub/git-glob-cp.git/master/foo/bar/**/*.js'
       }
     ],
     [
@@ -96,7 +99,8 @@ test('parse()', () => {
         pattern: '*.json',
         glob: true,
         repo: 'https://github.com/antongolub/tsc-esm-fix.git',
-        branch: 'master'
+        branch: 'master',
+        raw: 'https://github.com/antongolub/tsc-esm-fix.git/master/*.json'
       }
     ],
     [
@@ -106,7 +110,8 @@ test('parse()', () => {
         pattern: 'test',
         glob: false,
         repo: 'git@github.com:antongolub/git-glob-cp.git',
-        branch: 'test'
+        branch: 'test',
+        raw: 'git@github.com:antongolub/git-glob-cp.git/test/test'
       }
     ]
   ]
