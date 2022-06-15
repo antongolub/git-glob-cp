@@ -1,0 +1,35 @@
+{
+  "name": "git-glob-cp",
+  "version": "0.0.0-pre.1",
+  "description": "glob-aware two-way copying for git",
+  "type": "module",
+  "bin": "./src/main/js/cli.js",
+  "exports": {
+    ".": "./src/main/js/index.js"
+  },
+  "scripts": {
+    "test": "c8 uvu ./src/test -i fixtures -i utils && c8 report -r lcov"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antongolub/git-glob-cp.git"
+  },
+  "keywords": [
+    "git",
+    "glob",
+    "copy"
+  ],
+  "author": "Anton Golub <antongolub@antongolub.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/antongolub/git-glob-cp/issues"
+  },
+  "homepage": "https://github.com/antongolub/git-glob-cp#readme",
+  "dependencies": {
+    "zx-extra": "^1.7.0"
+  },
+  "devDependencies": {
+    "c8": "^7.11.3",
+    "uvu": "^0.5.3"
+  }
+}
