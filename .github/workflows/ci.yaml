@@ -28,8 +28,11 @@ jobs:
         with:
           node-version: 18
 
+      - name: Install deps
+        run: yarn install
+
       - name: Run tests
-        run: npm run test
+        run: yarn test
 
   test_pr:
     if: ${{ needs.init.outputs.skip == 'false' && github.event_name == 'pull_request' }}
@@ -50,9 +53,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Install deps
+        run: yarn install
+
       - name: Run tests
         timeout-minutes: 1
-        run: npm run test
+        run: yarn test
 
   release:
     name: Release
@@ -71,11 +77,14 @@ jobs:
         with:
           node-version: 18
 
+      - name: Install deps
+        run: yarn install
+
       - name: Run tests
-        run: npm run test
+        run: yarn test
 
       - name: Docs
-        run: npm run docs
+        run: yarn docs
 
 #      - name: Codeclimate
 #        uses: paambaati/codeclimate-action@v3.0.0

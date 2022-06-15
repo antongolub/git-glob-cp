@@ -1,11 +1,18 @@
 # git-glob-copy
 > Glob-aware two-way copying for git
 
-## Usage
+## Requirements
+* Node.js >= 16
+
+## Install
 ```shell
-git-glob-copy ./packages/*/bundle/**/*.js git://github.com/qiwi/git-glob-copy/master/artifacts/
+npm i git-glob-copy
+
+# or as a global package
+npm i -g git-glob-copy
 ```
 
+## Usage
 ### CLI
 ```shell
 # Copy `json` files from `master` branch of remote repo to local dir `temp`
