@@ -31,8 +31,9 @@ import { copy } from 'git-glob-copy'
 
 const from = 'git@github.com:antongolub/tsc-esm-fix.git/master/*.json'
 const to = 'temp'
+const msg = 'updated'
 
-await copy(from, to)
+await copy(from, to, msg)
 ```
 
 ## License
