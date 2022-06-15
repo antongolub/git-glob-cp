@@ -1,3 +1,8 @@
+## [1.3.2](https://github.com/antongolub/git-glob-cp/compare/v1.3.1...v1.3.2) (2022-06-15)
+
+### Fixes & improvements
+* docs: fix npm i example ([d4ec111](https://github.com/antongolub/git-glob-cp/commit/d4ec1111437e9fb39db0f169bca89dd3c9fea211))
+
 ## [1.3.1](https://github.com/antongolub/git-glob-cp/compare/v1.3.0...v1.3.1) (2022-06-15)
 
 ### Fixes & improvements
