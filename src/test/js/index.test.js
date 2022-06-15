@@ -37,7 +37,7 @@ test('copy() local pattern to local', () => ctx(async ($) => {
 }))
 
 test('copy() from remote git to local', () => ctx(async ($) => {
-  const from = 'git@github.com:antongolub/tsc-esm-fix.git/master/*.json'
+  const from = 'https://github.com/antongolub/tsc-esm-fix.git/master/*.json'
   const to = 'temp'
 
   await copy(from, to)
@@ -77,6 +77,16 @@ test('parse()', () => {
         pattern: 'foo/bar/**/*.js',
         glob: true,
         repo: 'git@github.com:antongolub/git-glob-cp.git',
+        branch: 'master'
+      }
+    ],
+    [
+      'https://github.com/antongolub/tsc-esm-fix.git/master/*.json',
+      {
+        base: '<temp>',
+        pattern: '*.json',
+        glob: true,
+        repo: 'https://github.com/antongolub/tsc-esm-fix.git',
         branch: 'master'
       }
     ]
