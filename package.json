@@ -6,6 +6,7 @@
   "type": "module",
   "bin": {
     "git-glob-cp": "./src/main/js/cli.js",
+    "git-glob-copy": "./src/main/js/cli.js",
     "ggcp": "./src/main/js/cli.js"
   },
   "exports": {

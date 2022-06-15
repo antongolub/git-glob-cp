@@ -1,15 +1,16 @@
-# git-glob-copy
-> Glob-aware two-way copying for git
+# ggcp
+
+> git-glob-copy — glob-aware two-way copying for git
 
 ## Requirements
 * Node.js >= 16
 
 ## Install
 ```shell
-npm i git-glob-copy
+npm i git-glob-cp
 
 # or as a global package
-npm i -g git-glob-copy
+npm i -g ggcp
 ```
 
 ## Usage
