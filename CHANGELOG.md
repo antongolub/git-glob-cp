@@ -1,3 +1,8 @@
+## [1.3.3](https://github.com/antongolub/git-glob-cp/compare/v1.3.2...v1.3.3) (2022-06-15)
+
+### Fixes & improvements
+* refactor: separate push and fetch stages ([b63485c](https://github.com/antongolub/git-glob-cp/commit/b63485cd70edc4d4f8023bb864c35f22606322ea))
+
 ## [1.3.2](https://github.com/antongolub/git-glob-cp/compare/v1.3.1...v1.3.2) (2022-06-15)
 
 ### Fixes & improvements
