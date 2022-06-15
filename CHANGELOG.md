@@ -1,3 +1,8 @@
+## [1.2.0](https://github.com/antongolub/git-glob-cp/compare/v1.1.0...v1.2.0) (2022-06-15)
+
+### Features
+* feat: handle cli glob spread ([7af9da8](https://github.com/antongolub/git-glob-cp/commit/7af9da891632bd623223db6be0a9c2cec9c981cf))
+
 ## [1.1.0](https://github.com/antongolub/git-glob-cp/compare/v1.0.0...v1.1.0) (2022-06-15)
 
 ### Fixes & improvements
