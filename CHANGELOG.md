@@ -1,3 +1,8 @@
+## [1.3.1](https://github.com/antongolub/git-glob-cp/compare/v1.3.0...v1.3.1) (2022-06-15)
+
+### Fixes & improvements
+* refactor: simplify git fetch ([7559712](https://github.com/antongolub/git-glob-cp/commit/755971296a3e0bd8751b0b20fea28a716f788187))
+
 ## [1.3.0](https://github.com/antongolub/git-glob-cp/compare/v1.2.0...v1.3.0) (2022-06-15)
 
 ### Features
