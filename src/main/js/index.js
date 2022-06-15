@@ -7,17 +7,21 @@ export const copy = async (
   to,
   msg = 'chore: sync',
 ) => ctx(async ($) => {
+  if (!from || !to) throw new Error('Both `from` and `to` arguments are required')
+
   const _from = parse(from)
   const _to = parse(to)
 
-  if (_to.glob || Array.isArray(to)) throw new Error('`dest` must not be a glob')
+  if (_to.glob) throw new Error('`dest` must not be a glob')
 
   if (_from.repo) await $`git clone --single-branch --branch ${_from.branch} --depth 1 ${_from.repo} ${_from.base}`
   try {
     if (_to.repo) await $`git clone --single-branch --branch ${_to.branch} --depth 1 ${_to.repo} ${_to.base}`
   } catch {
-    await $`git clone --depth 1 ${_to.repo} ${_to.base}`
     console.warn(`ref ${_to.branch} does not exist in ${_to.repo}`)
+    $.cwd = _to.base
+    await $`git init`
+    await $`git remote add origin ${_to.repo}`
   }
 
   await synchronize({

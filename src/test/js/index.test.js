@@ -48,6 +48,15 @@ test('copy() from remote git to local', () => ctx(async ($) => {
   await $`rm -r temp`
 }))
 
+test('copy() throws err on invalid args', () => ctx(async ($) => {
+  try {
+    await copy()
+    assert.fail()
+  } catch (e) {
+    assert.match(e.message, 'Both `from` and `to` arguments are required')
+  }
+}))
+
 test('parse()', () => {
   const cases = [
     [
