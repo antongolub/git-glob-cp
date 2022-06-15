@@ -37,7 +37,7 @@ ggcp 'git@github.com:antongolub/tsc-esm-fix.git/master/foo/*.txt' git@github.com
 
 ### JS API
 ```js
-import { copy } from 'git-glob-copy'
+import { copy } from 'ggcp'
 
 const from = 'git@github.com:antongolub/tsc-esm-fix.git/master/*.json'
 const to = 'temp'
