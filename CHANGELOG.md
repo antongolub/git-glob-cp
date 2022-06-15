@@ -1,3 +1,8 @@
+## [1.3.0](https://github.com/antongolub/git-glob-cp/compare/v1.2.0...v1.3.0) (2022-06-15)
+
+### Features
+* feat: add CLI help, check arguments ([191beb6](https://github.com/antongolub/git-glob-cp/commit/191beb6b3188fdeab0d6fa2a12c80f4b45b7a20b))
+
 ## [1.2.0](https://github.com/antongolub/git-glob-cp/compare/v1.1.0...v1.2.0) (2022-06-15)
 
 ### Features
