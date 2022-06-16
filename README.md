@@ -35,11 +35,12 @@ ggcp 'git@github.com:antongolub/tsc-esm-fix.git/master/foo/*.txt' git@github.com
 ```
 `ggcp` is an alias for `git-glob-copy`
 
-| Flag           | Description    | Default       |
-|----------------|----------------|---------------|
-| `--message -m` | Commit message | `chore: sync` |
-| `--version -v` | Print version  |               |
-| `--help -h`    | Show help      |               |
+| Flag                | Description    | Default       |
+|---------------------|----------------|---------------|
+| `--message -m`      | Commit message | `chore: sync` |
+| `--version -v`      | Print version  |               |
+| `--help -h`         | Show help      |               |
+| `--ignore-files -i` | Path to ignoreFile (like .gitignore or .npmignore) |
 
 ### Pattern examples
 ```js
@@ -68,9 +69,10 @@ import { copy, sync } from 'ggcp'
 const from = 'git@github.com:antongolub/tsc-esm-fix.git/master/*.json'
 const to = 'temp'
 const msg = 'updated'
+const ignoreFiles = '.gitignore'
 
 // Copy any to any
-await copy(from, to, msg)
+await copy(from, to, msg, ignoreFiles)
 
 // Synchronizes dirs only
 await copydir({
@@ -79,6 +81,7 @@ await copydir({
   to,         // Rel path.
   baseTo,     // Base dir. Defaults to process.cwd()
   debug,      // Debugger. Defauts to noop
+  ignoreFiles // Glob patterns to look for ignore files. string | string[]
 })
 ```
 

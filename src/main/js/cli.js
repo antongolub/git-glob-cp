@@ -10,9 +10,10 @@ if (argv.help || argv.h) {
     ggcp <from> <to> [options]
     
   Options:
-    --help -h        Show help
-    --message -m     Message to commit
-    --version -v     Show version
+    --help -h           Show help
+    --message -m        Message to commit
+    --version -v        Show version
+    --ignore-files -i   Path to ignore files (like .gitignore or .npmignore)
 
   Examples:
     ggcp ./*.md git@github.com:antongolub/git-glob-cp.git/test/test -m 'chore: sync'
@@ -27,4 +28,4 @@ if (argv.v || argv.version) {
   process.exit(0)
 }
 
-await copy(argv._.slice(0, -1), argv._.slice(-1)[0], argv.m || argv.message)
+await copy(argv._.slice(0, -1), argv._.slice(-1)[0], argv.m || argv.message, argv.i || argv.ignoreFiles)
