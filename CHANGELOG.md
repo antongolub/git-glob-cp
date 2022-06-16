@@ -1,3 +1,8 @@
+## [1.4.1](https://github.com/antongolub/git-glob-cp/compare/v1.4.0...v1.4.1) (2022-06-16)
+
+### Fixes & improvements
+* docs: extend usage examples ([c0a9921](https://github.com/antongolub/git-glob-cp/commit/c0a99219d979120da01839a287c3e17d6ca62d6b))
+
 ## [1.4.0](https://github.com/antongolub/git-glob-cp/compare/v1.3.3...v1.4.0) (2022-06-15)
 
 ### Features
