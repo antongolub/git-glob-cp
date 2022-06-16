@@ -1,3 +1,8 @@
+## [1.5.0](https://github.com/antongolub/git-glob-cp/compare/v1.4.2...v1.5.0) (2022-06-16)
+
+### Features
+* feat: pass `ignoreFiles` option to globby ([4191f6d](https://github.com/antongolub/git-glob-cp/commit/4191f6ddc0e6b70b70fbc97a342bd56583dbe736))
+
 ## [1.4.2](https://github.com/antongolub/git-glob-cp/compare/v1.4.1...v1.4.2) (2022-06-16)
 
 ### Fixes & improvements
