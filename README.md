@@ -18,6 +18,8 @@ npm i -g ggcp
 ```
 
 ## Usage
+To perform various repos automations: bulk config reading, cascade template updating, etc.
+
 ### CLI
 ```shell
 # Copy `json` files from `master` branch of remote repo to local dir `temp`
@@ -38,6 +40,26 @@ ggcp 'git@github.com:antongolub/tsc-esm-fix.git/master/foo/*.txt' git@github.com
 | `--message -m` | Commit message | `chore: sync` |
 | `--version -v` | Print version  |               |
 | `--help -h`    | Show help      |               |
+
+### Pattern examples
+```js
+// Absolute dir path
+'/foo/bar'
+
+// Rel paths
+'./foo/bar'
+'foo/bar'
+
+// Any depth md-filter
+'./**/*.md'
+
+// git://, git@, ssh://, https:// refs
+'https://github.com/antongolub/tsc-esm-fix.git/master/*.json'
+'ssh://github.com/antongolub/git-glob-cp.git/test/test'
+'git@github.com:antongolub/git-glob-cp.git/master/foo/bar/**/*.js'
+'git://github.com/antongolub/git-glob-cp.git/some-branch-name/test/**/*.js'
+// repo ref                                 // branch        // glob pattern
+```
 
 ### JS API
 ```js

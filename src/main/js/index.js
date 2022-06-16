@@ -56,7 +56,7 @@ const push = (dst, msg) => ctx(async ($) => {
 })
 
 export const parse = (target, temp) => {
-  let [, repo, branch, pattern] = /^((?:git(?::\/\/|@)|(?:ssh|https):\/\/)(?:(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*(?:[A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9](?::\d+)?)[\/:][A-Za-z0-9-]+\/[A-Za-z0-9-]+(?:\.git)?)\/([a-z0-9-]+)\/(.+)$/.exec(target) || []
+  let [, repo, branch, pattern] = /^((?:git(?::\/\/|@)|(?:ssh|https):\/\/)(?:(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*(?:[A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9](?::\d+)?)[\/:][A-Za-z0-9-]+\/[A-Za-z0-9-]+\.git)\/([a-z0-9-]+)\/(.+)$/.exec(target) || []
 
   const base = repo
     ? temp || tempy.temporaryDirectory()

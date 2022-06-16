@@ -113,6 +113,28 @@ test('parse()', () => {
         branch: 'test',
         raw: 'git@github.com:antongolub/git-glob-cp.git/test/test'
       }
+    ],
+    [
+      'git://github.com/antongolub/git-glob-cp.git/test/test',
+      {
+        base: '<temp>',
+        pattern: 'test',
+        glob: false,
+        repo: 'git://github.com/antongolub/git-glob-cp.git',
+        branch: 'test',
+        raw: 'git://github.com/antongolub/git-glob-cp.git/test/test'
+      }
+    ],
+    [
+      'ssh://github.com/antongolub/git-glob-cp.git/test/test',
+      {
+        base: '<temp>',
+        pattern: 'test',
+        glob: false,
+        repo: 'ssh://github.com/antongolub/git-glob-cp.git',
+        branch: 'test',
+        raw: 'ssh://github.com/antongolub/git-glob-cp.git/test/test'
+      }
     ]
   ]
 
