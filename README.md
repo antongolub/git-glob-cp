@@ -26,7 +26,7 @@ To perform various repos automations: bulk config reading, cascade template upda
 git-glob-copy git@github.com:antongolub/tsc-esm-fix.git/master/*.json temp
 
 
-# Push `json` files from local `temp` dir to remote `test` branch
+# Push `json` files from local `.` dir to remote `json` branch
 git-glob-copy *.json git@github.com:antongolub/tsc-esm-fix.git/master/json
 
 
