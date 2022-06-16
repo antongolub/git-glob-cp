@@ -111,3 +111,12 @@ temp
 
 # Docs
 docs
+
+# Coverage
+cc-reporter
+cc-reporter.*
+
+# Creds
+*.asc
+*.pem
+*.cert
