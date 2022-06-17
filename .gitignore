@@ -118,5 +118,6 @@ cc-reporter.*
 
 # Creds
 *.asc
+*.key
 *.pem
 *.cert

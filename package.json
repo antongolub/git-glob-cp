@@ -37,5 +37,11 @@
   "devDependencies": {
     "c8": "^7.11.3",
     "uvu": "^0.5.3"
-  }
+  },
+  "files": [
+    "src/main",
+    "LICENSE",
+    "README.md",
+    "CHANGELOG.md"
+  ]
 }
