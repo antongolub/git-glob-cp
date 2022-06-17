@@ -1,3 +1,8 @@
+## [1.5.1](https://github.com/antongolub/git-glob-cp/compare/v1.5.0...v1.5.1) (2022-06-17)
+
+### Fixes & improvements
+* fix: rm useless assets from pkg ([a654d37](https://github.com/antongolub/git-glob-cp/commit/a654d37fd6c4125edf27db146912982ca73f3a5b))
+
 ## [1.5.0](https://github.com/antongolub/git-glob-cp/compare/v1.4.2...v1.5.0) (2022-06-16)
 
 ### Features
