@@ -85,5 +85,9 @@ await copydir({
 })
 ```
 
+## References
+* [abelnation/globcp](https://github.com/abelnation/globcp#readme)
+* [ufologist/copy-push](https://github.com/ufologist/copy-push#readme)
+
 ## License
 [MIT](./LICENSE)
