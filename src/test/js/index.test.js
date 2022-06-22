@@ -1,7 +1,8 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import {ctx, tempy} from 'zx-extra'
+import {ctx, tempy, path, fs} from 'zx-extra'
 import {copy, parse} from '../../main/js/index.js'
+import tar from 'tar'
 
 const test = suite('index')
 
@@ -57,6 +58,25 @@ test('copy() throws err on invalid args', () => ctx(async ($) => {
   }
 }))
 
+test.only('copy() from archive', () => ctx(async ($) => {
+  const temp = tempy.temporaryDirectory()
+  await fs.outputFile(path.resolve(temp, 'foo.txt'), 'foo')
+  await fs.outputFile(path.resolve(temp, 'foo.js'), 'foo')
+  await tar.c({
+    file: path.resolve(temp, 'foo.tgz'),
+    cwd: temp,
+  }, ['foo.txt', 'foo.js'])
+
+  await copy({
+    from: 'foo.tgz/*.js',
+    to: 'unpacked/',
+    cwd: temp
+  })
+  assert.ok((!await fs.pathExists(path.resolve(temp, 'unpacked/foo.txt'))))
+  assert.ok(await fs.pathExists(path.resolve(temp, 'unpacked/foo.js')))
+  assert.is((await fs.readFile(path.resolve(temp, 'unpacked/foo.js'))).toString('utf8'), 'foo')
+}))
+
 test('parse()', () => {
   const cases = [
     [
@@ -64,10 +84,8 @@ test('parse()', () => {
       {
         base: process.cwd(),
         pattern: './foo/bar',
-        glob: false,
-        repo: undefined,
-        branch: undefined,
-        raw: './foo/bar'
+        raw: './foo/bar',
+        type: 'local'
       }
     ],
     [
@@ -75,10 +93,8 @@ test('parse()', () => {
       {
         base: process.cwd(),
         pattern: './foo/bar/**/*.js',
-        glob: true,
-        repo: undefined,
-        branch: undefined,
-        raw: './foo/bar/**/*.js'
+        raw: './foo/bar/**/*.js',
+        type: 'local'
       }
     ],
     [
@@ -86,10 +102,11 @@ test('parse()', () => {
       {
         base: '<temp>',
         pattern: 'foo/bar/**/*.js',
-        glob: true,
         repo: 'git@github.com:antongolub/git-glob-cp.git',
         branch: 'master',
-        raw: 'git@github.com:antongolub/git-glob-cp.git/master/foo/bar/**/*.js'
+        raw: 'git@github.com:antongolub/git-glob-cp.git/master/foo/bar/**/*.js',
+        type: 'git',
+        protocol: 'git'
       }
     ],
     [
@@ -97,10 +114,11 @@ test('parse()', () => {
       {
         base: '<temp>',
         pattern: '*.json',
-        glob: true,
         repo: 'https://github.com/antongolub/tsc-esm-fix.git',
         branch: 'master',
-        raw: 'https://github.com/antongolub/tsc-esm-fix.git/master/*.json'
+        raw: 'https://github.com/antongolub/tsc-esm-fix.git/master/*.json',
+        type: 'git',
+        protocol: 'https'
       }
     ],
     [
@@ -108,10 +126,11 @@ test('parse()', () => {
       {
         base: '<temp>',
         pattern: 'test',
-        glob: false,
         repo: 'git@github.com:antongolub/git-glob-cp.git',
         branch: 'test',
-        raw: 'git@github.com:antongolub/git-glob-cp.git/test/test'
+        raw: 'git@github.com:antongolub/git-glob-cp.git/test/test',
+        type: 'git',
+        protocol: 'git'
       }
     ],
     [
@@ -119,10 +138,11 @@ test('parse()', () => {
       {
         base: '<temp>',
         pattern: 'test',
-        glob: false,
         repo: 'git://github.com/antongolub/git-glob-cp.git',
         branch: 'test',
-        raw: 'git://github.com/antongolub/git-glob-cp.git/test/test'
+        raw: 'git://github.com/antongolub/git-glob-cp.git/test/test',
+        type: 'git',
+        protocol: 'git'
       }
     ],
     [
@@ -130,16 +150,41 @@ test('parse()', () => {
       {
         base: '<temp>',
         pattern: 'test',
-        glob: false,
         repo: 'ssh://github.com/antongolub/git-glob-cp.git',
         branch: 'test',
-        raw: 'ssh://github.com/antongolub/git-glob-cp.git/test/test'
+        raw: 'ssh://github.com/antongolub/git-glob-cp.git/test/test',
+        type: 'git',
+        protocol: 'ssh'
+      }
+    ],
+    [
+      'https://github.com/archive.zip/foo/bar/**/*.js',
+      {
+        base: '<temp>',
+        pattern: 'foo/bar/**/*.js',
+        raw: 'https://github.com/archive.zip/foo/bar/**/*.js',
+        file: 'https://github.com/archive.zip',
+        type: 'archive',
+        protocol: 'https',
+        format: 'zip'
+      }
+    ],
+    [
+      '/archive.tgz/foo/bar/**/*.js',
+      {
+        base: '<temp>',
+        pattern: 'foo/bar/**/*.js',
+        raw: '/archive.tgz/foo/bar/**/*.js',
+        file: '/archive.tgz',
+        type: 'archive',
+        protocol: 'local',
+        format: 'tgz'
       }
     ]
   ]
 
   cases.forEach(([input, expected]) => {
-    assert.equal(parse(input, '<temp>'), expected)
+    assert.equal(parse(input, {temp: '<temp>'}), expected)
   })
 })
 

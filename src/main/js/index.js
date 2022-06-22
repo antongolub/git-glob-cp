@@ -1,4 +1,5 @@
 import {fs, globby, path, tempy, ctx, $} from 'zx-extra'
+import tar from 'tar'
 
 $.verbose = $.env.DEBUG ? 1 : 0
 
@@ -6,18 +7,26 @@ export const copy = async (
   from,
   to,
   msg = 'chore: sync',
-  ignoreFiles
+  ignoreFiles,
+  cwd
 ) => {
+  if (typeof from === 'object') return copy(from.from, from.to, from.msg, from.ignoreFiles, from.cwd)
   if (!from || !to) throw new Error('Both `from` and `to` arguments are required')
 
-  const src = parse(from)
-  const dst = parse(to)
+  const src = parse(from, {cwd})
+  const dst = parse(to, {cwd})
 
-  if (dst.glob) throw new Error('`dest` must not be a glob')
+  if (/[{}*,]/.test(dst.pattern)) throw new Error('`dest` must not be a glob')
 
-  if (src.repo) await fetch(src)
+  if (dst.type === 'archive') throw new Error('archive as dest is not supported yet')
 
-  if (dst.repo) await fetch(dst, true)
+  if (src.type === 'git') await fetch(src)
+
+  if (dst.type === 'git') await fetch(dst, true)
+
+  if (src.type === 'archive') {
+    await tar.x({ file: src.file, cwd: src.base })
+  }
 
   await copydir({
     baseFrom: src.base,
@@ -57,23 +66,42 @@ const push = (dst, msg) => ctx(async ($) => {
   await $.raw`git push origin HEAD:refs/heads/${dst.branch}`
 })
 
-export const parse = (target, temp) => {
-  let [, repo, branch, pattern] = /^((?:git(?::\/\/|@)|(?:ssh|https):\/\/)(?:(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*(?:[A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9](?::\d+)?)[\/:][A-Za-z0-9-]+\/[A-Za-z0-9-]+\.git)\/([a-z0-9-]+)\/(.+)$/.exec(target) || []
+export const parse = (target, {cwd = process.cwd(), temp = tempy.temporaryDirectory()} = {}) => {
+  const arcref = /((https?:\/\/)?.+\.(zip|tgz|xz|7z))\/(.+)$/
+  const gitref = /^((git@|(?:git|ssh|https):\/\/)(?:(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*(?:[A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9](?::\d+)?)[\/:][A-Za-z0-9-]+\/[A-Za-z0-9-]+\.git)\/([a-z0-9-]+)\/(.+)$/
 
-  const base = repo
-    ? temp || tempy.temporaryDirectory()
-    : target.startsWith?.('/')
-      ? '/'
-      : process.cwd()
+  if (gitref.test(target)) {
+    const [, repo, protocol, branch, pattern] = gitref.exec(target)
 
-  pattern = pattern || target
+    return {
+      type: 'git',
+      protocol: protocol.replaceAll(/[^a-z]/g, ''),
+      repo,
+      branch,
+      pattern,
+      base: temp,
+      raw: target
+    }
+  }
+
+  if (arcref.test(target)) {
+    const [, file, protocol, format, pattern] = arcref.exec(target)
+
+    return {
+      type: 'archive',
+      file: file.startsWith?.('/') ? file : path.resolve(cwd, file),
+      protocol: protocol ? protocol.replaceAll(/[^a-z]/g, '') : 'local',
+      format,
+      pattern,
+      raw: target,
+      base: temp
+    }
+  }
 
   return {
-    base,
-    repo,
-    branch,
-    pattern,
-    glob: /[{}*,]/.test(pattern),
+    type: 'local',
+    base: target.startsWith?.('/') ? '/' : cwd,
+    pattern: target,
     raw: target,
   }
 }
