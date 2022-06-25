@@ -194,6 +194,18 @@ test('parse()', () => {
         protocol: 'local',
         format: 'tgz'
       }
+    ],
+    [
+      '/archive.tgz',
+      {
+        base: '<temp>',
+        pattern: '**/*',
+        raw: '/archive.tgz',
+        file: '/archive.tgz',
+        type: 'archive',
+        protocol: 'local',
+        format: 'tgz'
+      }
     ]
   ]
 
