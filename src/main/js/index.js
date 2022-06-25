@@ -11,7 +11,7 @@ export const copy = async (
   ignoreFiles,
   cwd
 ) => {
-  if (typeof from === 'object') return copy(from.from, from.to, from.msg, from.ignoreFiles, from.cwd)
+  if (typeof from === 'object' && !Array.isArray(from) && from !== null) return copy(from.from, from.to, from.msg, from.ignoreFiles, from.cwd)
   if (!from || !to) throw new Error('Both `from` and `to` arguments are required')
 
   const src = parse(from, {cwd})
