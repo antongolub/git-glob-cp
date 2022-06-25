@@ -24,13 +24,7 @@ export const copy = async (
 
   if (dst.type === 'git') await gitFetch(dst, true)
 
-  if (src.type === 'archive') {
-    if (src.protocol !== 'local') src.file = await download(src.file)
-
-    if (fs.statSync(src.file).isFile()) {
-      await tar.x({ file: src.file, cwd: src.base })
-    }
-  }
+  if (src.type === 'archive') await unpackArchive(src)
 
   await copydir({
     baseFrom: src.base,
@@ -42,6 +36,12 @@ export const copy = async (
   })
 
   if (dst.type === 'git') await gitPush(dst, msg)
+}
+
+const unpackArchive = async (src) => {
+  if (src.protocol !== 'local') src.file = await download(src.file)
+
+  if (fs.statSync(src.file).isFile()) await tar.x({ file: src.file, cwd: src.base })
 }
 
 const gitFetch = (src, nothrow) => ctx(async ($) => {
