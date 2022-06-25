@@ -1,4 +1,4 @@
-import {fs, globby, path, tempy, ctx, $} from 'zx-extra'
+import {fs, globby, path, tempy, ctx, $, fetch} from 'zx-extra'
 import tar from 'tar'
 
 $.verbose = $.env.DEBUG ? 1 : 0
@@ -20,12 +20,16 @@ export const copy = async (
 
   if (dst.type === 'archive') throw new Error('archive as dest is not supported yet')
 
-  if (src.type === 'git') await fetch(src)
+  if (src.type === 'git') await gitFetch(src)
 
-  if (dst.type === 'git') await fetch(dst, true)
+  if (dst.type === 'git') await gitFetch(dst, true)
 
   if (src.type === 'archive') {
-    await tar.x({ file: src.file, cwd: src.base })
+    if (src.protocol !== 'local') src.file = await download(src.file)
+
+    if (fs.statSync(src.file).isFile()) {
+      await tar.x({ file: src.file, cwd: src.base })
+    }
   }
 
   await copydir({
@@ -37,10 +41,10 @@ export const copy = async (
     ignoreFiles,
   })
 
-  if (dst.repo) await push(dst, msg)
+  if (dst.type === 'git') await gitPush(dst, msg)
 }
 
-const fetch = (src, nothrow) => ctx(async ($) => {
+const gitFetch = (src, nothrow) => ctx(async ($) => {
   $.cwd = src.base
   try {
     await $`git clone --single-branch --branch ${src.branch} --depth 1 ${src.repo} .`
@@ -52,7 +56,7 @@ const fetch = (src, nothrow) => ctx(async ($) => {
   }
 })
 
-const push = (dst, msg) => ctx(async ($) => {
+const gitPush = (dst, msg) => ctx(async ($) => {
   $.cwd = dst.base
   await $`git add .`
   try {
@@ -85,12 +89,13 @@ export const parse = (target, {cwd = process.cwd(), temp = tempy.temporaryDirect
   }
 
   if (arcref.test(target)) {
-    const [, file, protocol, format, pattern] = arcref.exec(target)
+    const [, file, _protocol, format, pattern] = arcref.exec(target)
+    const protocol = _protocol ? _protocol.replaceAll(/[^a-z]/g, '') : 'local'
 
     return {
       type: 'archive',
-      file: file.startsWith?.('/') ? file : path.resolve(cwd, file),
-      protocol: protocol ? protocol.replaceAll(/[^a-z]/g, '') : 'local',
+      file: protocol !== 'local' || file.startsWith?.('/') ? file : path.resolve(cwd, file),
+      protocol,
       format,
       pattern,
       raw: target,
@@ -105,6 +110,18 @@ export const parse = (target, {cwd = process.cwd(), temp = tempy.temporaryDirect
     raw: target,
   }
 }
+
+export const download = (async (url, file = tempy.temporaryFile()) => {
+  const res = await fetch(url)
+  const fileStream = fs.createWriteStream(file)
+  await new Promise((resolve, reject) => {
+    res.body.pipe(fileStream)
+    res.body.on("error", reject)
+    fileStream.on("finish", resolve)
+  })
+
+  return file
+})
 
 export const copydir = async ({
   from,

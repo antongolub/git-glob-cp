@@ -58,7 +58,7 @@ test('copy() throws err on invalid args', () => ctx(async ($) => {
   }
 }))
 
-test.only('copy() from archive', () => ctx(async ($) => {
+test('copy() from local archive', () => ctx(async ($) => {
   const temp = tempy.temporaryDirectory()
   await fs.outputFile(path.resolve(temp, 'foo.txt'), 'foo')
   await fs.outputFile(path.resolve(temp, 'foo.js'), 'foo')
@@ -75,6 +75,19 @@ test.only('copy() from archive', () => ctx(async ($) => {
   assert.ok((!await fs.pathExists(path.resolve(temp, 'unpacked/foo.txt'))))
   assert.ok(await fs.pathExists(path.resolve(temp, 'unpacked/foo.js')))
   assert.is((await fs.readFile(path.resolve(temp, 'unpacked/foo.js'))).toString('utf8'), 'foo')
+}))
+
+test('copy() from remote archive', () => ctx(async ($) => {
+  const temp = tempy.temporaryDirectory()
+
+  await copy({
+    from: 'https://registry.npmjs.org/ggcp/-/ggcp-1.5.1.tgz/**/*.js',
+    to: './',
+    cwd: temp
+  })
+
+  assert.ok((!await fs.pathExists(path.resolve(temp, 'package/package.json'))))
+  assert.ok((await fs.pathExists(path.resolve(temp, 'package/src/main/js/index.js'))))
 }))
 
 test('parse()', () => {

@@ -32,6 +32,10 @@ git-glob-copy *.json git@github.com:antongolub/tsc-esm-fix.git/master/json
 
 # Push from repo to repo
 ggcp 'git@github.com:antongolub/tsc-esm-fix.git/master/foo/*.txt' git@github.com:antongolub/git-glob-copy.git/master/bar
+
+
+# Fetch remote archive to local dir
+ggcp 'https://registry.npmjs.org/ggcp/-/ggcp-1.5.1.tgz/**/*.js' /private/tmp/ggcp-1.5.1/
 ```
 `ggcp` is an alias for `git-glob-copy`
 
