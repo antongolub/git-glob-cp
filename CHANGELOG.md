@@ -1,3 +1,8 @@
+## [1.6.2](https://github.com/antongolub/git-glob-cp/compare/v1.6.1...v1.6.2) (2022-06-25)
+
+### Fixes & improvements
+* refactor: decompose parser ([3d5e2cb](https://github.com/antongolub/git-glob-cp/commit/3d5e2cbd4fa69eb76d06c26a4bf7f6aac1945f6b))
+
 ## [1.6.1](https://github.com/antongolub/git-glob-cp/compare/v1.6.0...v1.6.1) (2022-06-25)
 
 ### Fixes & improvements
