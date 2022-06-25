@@ -1,3 +1,8 @@
+## [1.6.1](https://github.com/antongolub/git-glob-cp/compare/v1.6.0...v1.6.1) (2022-06-25)
+
+### Fixes & improvements
+* refactor: simplify copy ([ec280f3](https://github.com/antongolub/git-glob-cp/commit/ec280f3650bbb8e21e4c1ef2aa707930d55306bf))
+
 ## [1.6.0](https://github.com/antongolub/git-glob-cp/compare/v1.5.1...v1.6.0) (2022-06-25)
 
 ### Fixes & improvements
