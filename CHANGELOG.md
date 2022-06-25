@@ -1,3 +1,8 @@
+## [1.7.0](https://github.com/antongolub/git-glob-cp/compare/v1.6.2...v1.7.0) (2022-06-25)
+
+### Features
+* feat: set default pattern to `**/*` ([fc4a77a](https://github.com/antongolub/git-glob-cp/commit/fc4a77ad476bbcf6b8435a2cd095fd832691c286))
+
 ## [1.6.2](https://github.com/antongolub/git-glob-cp/compare/v1.6.1...v1.6.2) (2022-06-25)
 
 ### Fixes & improvements
