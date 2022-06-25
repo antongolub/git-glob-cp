@@ -1,3 +1,8 @@
+## [1.7.1](https://github.com/antongolub/git-glob-cp/compare/v1.7.0...v1.7.1) (2022-06-25)
+
+### Fixes & improvements
+* fix: handle array type as `from` arg ([66dc000](https://github.com/antongolub/git-glob-cp/commit/66dc00004b0867d8c3add5e59b432d31604c5578))
+
 ## [1.7.0](https://github.com/antongolub/git-glob-cp/compare/v1.6.2...v1.7.0) (2022-06-25)
 
 ### Features
