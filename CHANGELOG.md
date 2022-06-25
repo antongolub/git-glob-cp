@@ -1,3 +1,13 @@
+## [1.6.0](https://github.com/antongolub/git-glob-cp/compare/v1.5.1...v1.6.0) (2022-06-25)
+
+### Fixes & improvements
+* docs: mention cp from archive in CLI hints ([863cc0d](https://github.com/antongolub/git-glob-cp/commit/863cc0da20761a419ce148891f0142ec6523bdd7))
+* docs: add some refs ([0601cb2](https://github.com/antongolub/git-glob-cp/commit/0601cb20a2cb1cbb057dccf44f8754180ea5f433))
+
+### Features
+* feat: support copying from remote http archives ([02cf9cd](https://github.com/antongolub/git-glob-cp/commit/02cf9cd21e98565a89bfd736c6465bd9913c5860))
+* feat: support copying from archives ([1748786](https://github.com/antongolub/git-glob-cp/commit/1748786e9ca56fe04af9e17e332670f87e91b72c))
+
 ## [1.5.1](https://github.com/antongolub/git-glob-cp/compare/v1.5.0...v1.5.1) (2022-06-17)
 
 ### Fixes & improvements
