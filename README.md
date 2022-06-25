@@ -64,6 +64,9 @@ ggcp 'https://registry.npmjs.org/ggcp/-/ggcp-1.5.1.tgz/**/*.js' /private/tmp/ggc
 'git@github.com:antongolub/git-glob-cp.git/master/foo/bar/**/*.js'
 'git://github.com/antongolub/git-glob-cp.git/some-branch-name/test/**/*.js'
 // repo ref                                 // branch        // glob pattern
+
+'https://registry.npmjs.org/ggcp/-/ggcp-1.5.1.tgz/**/*.js'
+// archive ref                                   // glob pattern
 ```
 
 ### JS API
@@ -77,6 +80,7 @@ const ignoreFiles = '.gitignore'
 
 // Copy any to any
 await copy(from, to, msg, ignoreFiles)
+await copy({from, to, msg, ignoreFiles}) // opts-based syntax
 
 // Synchronizes dirs only
 await copydir({

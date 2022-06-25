@@ -19,6 +19,7 @@ if (argv.help || argv.h) {
     ggcp ./*.md git@github.com:antongolub/git-glob-cp.git/test/test -m 'chore: sync'
     ggcp git@github.com:antongolub/git-glob-cp.git/master/*.md temp
     ggcp 'git@github.com:antongolub/git-glob-cp.git/master/*.md' git@github.com:antongolub/git-glob-cp.git/test/test -m 'test'
+    ggcp 'https://registry.npmjs.org/ggcp/-/ggcp-1.5.1.tgz/**/*.js' /private/tmp/ggcp-1.5.1/
 `)
   process.exit(0)
 }
