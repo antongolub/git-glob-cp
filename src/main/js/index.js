@@ -1,5 +1,6 @@
 import {fs, globby, path, tempy, ctx, $, fetch} from 'zx-extra'
 import tar from 'tar'
+import {parse, parseSources} from './parse.js'
 
 $.verbose = $.env.DEBUG ? 1 : 0
 
@@ -18,13 +19,13 @@ export const copy = async (
 
   if (/[{}*,]/.test(dst.pattern)) throw new Error('`dest` must not be a glob')
 
-  if (dst.type === 'archive') throw new Error('archive as dest is not supported yet')
-
   if (src.type === 'git') await gitFetch(src)
 
   if (dst.type === 'git') await gitFetch(dst, true)
 
   if (src.type === 'archive') await unpackArchive(src)
+
+  if (dst.type === 'archive') throw new Error('archive as dest is not supported yet')
 
   await copydir({
     baseFrom: src.base,
@@ -70,47 +71,6 @@ const gitPush = (dst, msg) => ctx(async ($) => {
   await $.raw`git push origin HEAD:refs/heads/${dst.branch}`
 })
 
-export const parse = (target, {cwd = process.cwd(), temp = tempy.temporaryDirectory()} = {}) => {
-  const arcref = /((https?:\/\/)?.+\.(zip|tgz|xz|7z))\/(.+)$/
-  const gitref = /^((git@|(?:git|ssh|https):\/\/)(?:(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*(?:[A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9](?::\d+)?)[\/:][A-Za-z0-9-]+\/[A-Za-z0-9-]+\.git)\/([a-z0-9-]+)\/(.+)$/
-
-  if (gitref.test(target)) {
-    const [, repo, protocol, branch, pattern] = gitref.exec(target)
-
-    return {
-      type: 'git',
-      protocol: protocol.replaceAll(/[^a-z]/g, ''),
-      repo,
-      branch,
-      pattern,
-      base: temp,
-      raw: target
-    }
-  }
-
-  if (arcref.test(target)) {
-    const [, file, _protocol, format, pattern] = arcref.exec(target)
-    const protocol = _protocol ? _protocol.replaceAll(/[^a-z]/g, '') : 'local'
-
-    return {
-      type: 'archive',
-      file: protocol !== 'local' || file.startsWith?.('/') ? file : path.resolve(cwd, file),
-      protocol,
-      format,
-      pattern,
-      raw: target,
-      base: temp
-    }
-  }
-
-  return {
-    type: 'local',
-    base: target.startsWith?.('/') ? '/' : cwd,
-    pattern: target,
-    raw: target,
-  }
-}
-
 export const download = (async (url, file = tempy.temporaryFile()) => {
   const res = await fetch(url)
   const fileStream = fs.createWriteStream(file)
@@ -145,30 +105,6 @@ export const copydir = async ({
       ...dirs.map((dir) => cp(dir, path.resolve(baseTo, to))),
     ]),
   )
-}
-
-const parseSources = async (src, base) => {
-  const entries = Array.isArray(src) ? src : [src]
-  const patterns = []
-  const dirs = []
-
-  await Promise.all(
-    entries.map(async (entry) => {
-      const entryAbs = path.resolve(base, entry)
-
-      try {
-        if ((await fs.lstat(entryAbs))?.isDirectory()) {
-          dirs.push(entryAbs)
-
-          return
-        }
-      } catch {}
-
-      patterns.push(entry)
-    }),
-  )
-
-  return {patterns, dirs}
 }
 
 export const ggcp = copy

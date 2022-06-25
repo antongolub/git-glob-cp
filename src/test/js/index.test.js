@@ -1,7 +1,8 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
 import {ctx, tempy, path, fs} from 'zx-extra'
-import {copy, parse} from '../../main/js/index.js'
+import {copy} from '../../main/js/index.js'
+import {parse} from '../../main/js/parse.js'
 import tar from 'tar'
 
 const test = suite('index')
