@@ -1198,10 +1198,10 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zx-extra@^1.7.0:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/zx-extra/-/zx-extra-1.7.0.tgz#5ec01fa9a5fe81833206bcef6c97f4de06c4a350"
-  integrity sha512-E82r2S8sAGqhDjucj1b6FQr5dDwrxVn8LzTi/0cqSQ6obS7O8vslkHj7xpo2chXs1AmnmJWUqGSUjUuOWZCcrg==
+zx-extra@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/zx-extra/-/zx-extra-1.7.1.tgz#d202c0d16094c7b0642fd474870c5c225a10501a"
+  integrity sha512-eMcbVGl4vApBZq+ApPj4dq4WCx7wGaOqSz8bV32tVTEQ0TLUnk665K2dI44tPcuyFvOsI3aC3DBtFTbFEpIOag==
   dependencies:
     "@qiwi/deep-proxy" "^2.0.1"
     "@types/ip" "^1.1.0"
