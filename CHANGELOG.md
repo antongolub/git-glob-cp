@@ -1,3 +1,8 @@
+## [1.7.3](https://github.com/antongolub/git-glob-cp/compare/v1.7.2...v1.7.3) (2022-07-03)
+
+### Fixes & improvements
+* perf: update zx-extra to v2 ([4c77903](https://github.com/antongolub/git-glob-cp/commit/4c779037a2abaa3bf8b97dd0b1510d121f9d953a))
+
 ## [1.7.2](https://github.com/antongolub/git-glob-cp/compare/v1.7.1...v1.7.2) (2022-06-26)
 
 ### Fixes & improvements
