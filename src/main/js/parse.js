@@ -1,15 +1,15 @@
 import {path, tempy} from 'zx-extra'
 
-export const parse = (target, {cwd = process.cwd(), temp = tempy.temporaryDirectory()} = {}) =>
-  parseGitref(target, {temp}) ||
-  parseArchiveref(target, {temp, cwd}) ||
+export const parse = (target, {cwd = process.cwd(), temp = tempy.temporaryDirectory(), defaultPattern} = {}) =>
+  parseGitref(target, {temp, defaultPattern}) ||
+  parseArchiveref(target, {temp, cwd, defaultPattern}) ||
   parseLocalref(target, {cwd})
 
-const parseGitref = (target, {temp}) => {
+const parseGitref = (target, {temp, defaultPattern}) => {
   const gitref = /^((git@|(?:git|ssh|https):\/\/)(?:(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*(?:[A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9](?::\d+)?)[\/:][A-Za-z0-9-]+\/[A-Za-z0-9-]+\.git)\/([a-z0-9-]+)(?:\/(.+))?$/
 
   if (gitref.test(target)) {
-    const [, repo, protocol, branch, pattern = '**/*'] = gitref.exec(target)
+    const [, repo, protocol, branch, pattern = defaultPattern] = gitref.exec(target)
 
     return {
       type: 'git',
@@ -23,11 +23,11 @@ const parseGitref = (target, {temp}) => {
   }
 }
 
-const parseArchiveref = (target, {temp, cwd}) => {
+const parseArchiveref = (target, {temp, cwd, defaultPattern}) => {
   const arcref = /((https?:\/\/)?.+\.(zip|tgz|xz|7z))(?:\/(.+))?$/
 
   if (arcref.test(target)) {
-    const [, file, _protocol, format, pattern = '**/*'] = arcref.exec(target)
+    const [, file, _protocol, format, pattern = defaultPattern] = arcref.exec(target)
     const protocol = _protocol ? _protocol.replaceAll(/[^a-z]/g, '') : 'local'
 
     return {

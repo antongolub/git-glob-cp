@@ -50,6 +50,17 @@ test('copy() from remote git to local', () => ctx(async ($) => {
   await $`rm -r temp`
 }))
 
+test('copy() from git to git', () => ctx(async ($) => {
+  const from = 'https://github.com/antongolub/tsc-esm-fix.git/master/*.json'
+  const to = 'https://antongolub.com/fake/repo.git/test'
+
+  try {
+    await copy(from, to)
+  } catch (e) {
+    assert.is(e.stderr.trim(), `fatal: repository 'https://antongolub.com/fake/repo.git/' not found`)
+  }
+}))
+
 test('copy() throws err on invalid args', () => ctx(async ($) => {
   try {
     await copy()
@@ -77,6 +88,30 @@ test('copy() from local archive', () => ctx(async ($) => {
   assert.ok(await fs.pathExists(path.resolve(temp, 'unpacked/foo.js')))
   assert.is((await fs.readFile(path.resolve(temp, 'unpacked/foo.js'))).toString('utf8'), 'foo')
 }))
+
+test('copy() fails if dst is a pattern', async () => {
+  try {
+    await copy({
+      from: 'temp/a/*.txt',
+      to: 'temp/b/*.txt'
+    })
+    assert.fail()
+  } catch (e) {
+    assert.match(e.message, '`dest` must not be a glob')
+  }
+})
+
+test('copy() fails if dst is an archive', async () => {
+  try {
+    await copy({
+      from: 'temp/a/*.txt',
+      to: 'temp/b/foo.tgz'
+    })
+    assert.fail()
+  } catch (e) {
+    assert.match(e.message, 'archive as dest is not supported yet')
+  }
+})
 
 test('copy() from remote archive', () => ctx(async ($) => {
   const temp = tempy.temporaryDirectory()
@@ -199,7 +234,7 @@ test('parse()', () => {
       '/archive.tgz',
       {
         base: '<temp>',
-        pattern: '**/*',
+        pattern: undefined,
         raw: '/archive.tgz',
         file: '/archive.tgz',
         type: 'archive',

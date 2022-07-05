@@ -14,8 +14,8 @@ export const copy = async (
   if (typeof from === 'object' && !Array.isArray(from) && from !== null) return copy(from.from, from.to, from.msg, from.ignoreFiles, from.cwd)
   if (!from || !to) throw new Error('Both `from` and `to` arguments are required')
 
-  const src = parse(from, {cwd})
-  const dst = parse(to, {cwd})
+  const src = parse(from, {cwd, defaultPattern: '**/*'})
+  const dst = parse(to, {cwd, defaultPattern: '.'})
 
   if (/[{}*,]/.test(dst.pattern)) throw new Error('`dest` must not be a glob')
 
