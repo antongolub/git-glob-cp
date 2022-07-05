@@ -1,6 +1,6 @@
-import {fs, globby, path, tempy, ctx, $, fetch} from 'zx-extra'
+import {fs, tempy, ctx, $, fetch, copy as _copy} from 'zx-extra'
 import tar from 'tar'
-import {parse, parseSources} from './parse.js'
+import {parse} from './parse.js'
 
 $.verbose = $.env.DEBUG ? 1 : 0
 
@@ -27,7 +27,7 @@ export const copy = async (
 
   if (dst.type === 'archive') throw new Error('archive as dest is not supported yet')
 
-  await copydir({
+  await _copy({
     baseFrom: src.base,
     from: src.pattern,
     baseTo: dst.base,
@@ -82,30 +82,6 @@ export const download = (async (url, file = tempy.temporaryFile()) => {
 
   return file
 })
-
-export const copydir = async ({
-  from,
-  to,
-  baseFrom = process.cwd(),
-  baseTo = process.cwd(),
-  debug = () => {},
-  ignoreFiles
-}) => {
-  const cp = (src, dest) => {
-    debug('copy', 'from=', src, 'to=', dest)
-    return fs.copy(src, dest)
-  }
-  const {patterns, dirs} = await parseSources(from, baseFrom)
-
-  await globby(patterns, { cwd: baseFrom, absolute: true, ignoreFiles }).then((files) =>
-    Promise.all([
-      ...files.map((file) =>
-        cp(file, path.resolve(baseTo, to, path.relative(baseFrom, file))),
-      ),
-      ...dirs.map((dir) => cp(dir, path.resolve(baseTo, to))),
-    ]),
-  )
-}
 
 export const ggcp = copy
 

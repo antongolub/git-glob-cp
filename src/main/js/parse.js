@@ -1,28 +1,4 @@
-import {fs, path, tempy} from 'zx-extra'
-
-export const parseSources = async (src, base) => {
-  const entries = Array.isArray(src) ? src : [src]
-  const patterns = []
-  const dirs = []
-
-  await Promise.all(
-    entries.map(async (entry) => {
-      const entryAbs = path.resolve(base, entry)
-
-      try {
-        if ((await fs.lstat(entryAbs))?.isDirectory()) {
-          dirs.push(entryAbs)
-
-          return
-        }
-      } catch {}
-
-      patterns.push(entry)
-    }),
-  )
-
-  return {patterns, dirs}
-}
+import {path, tempy} from 'zx-extra'
 
 export const parse = (target, {cwd = process.cwd(), temp = tempy.temporaryDirectory()} = {}) =>
   parseGitref(target, {temp}) ||
