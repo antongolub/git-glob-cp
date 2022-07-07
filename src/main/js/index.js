@@ -19,13 +19,13 @@ export const copy = async (
 
   if (/[{}*,]/.test(dst.pattern)) throw new Error('`dest` must not be a glob')
 
-  if (src.type === 'git') await gitFetch(src)
-
-  if (dst.type === 'git') await gitFetch(dst, true)
+  if (dst.type === 'archive') throw new Error('archive as dest is not supported yet')
 
   if (src.type === 'archive') await unpackArchive(src)
 
-  if (dst.type === 'archive') throw new Error('archive as dest is not supported yet')
+  if (src.type === 'git') await gitFetch(src)
+
+  if (dst.type === 'git') await gitFetch(dst, true)
 
   await _copy({
     baseFrom: src.base,
