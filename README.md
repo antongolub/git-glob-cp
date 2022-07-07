@@ -39,12 +39,13 @@ ggcp 'https://registry.npmjs.org/ggcp/-/ggcp-1.5.1.tgz/**/*.js' /private/tmp/ggc
 ```
 `ggcp` is an alias for `git-glob-copy`
 
-| Flag                | Description    | Default       |
-|---------------------|----------------|---------------|
-| `--message -m`      | Commit message | `chore: sync` |
-| `--version -v`      | Print version  |               |
-| `--help -h`         | Show help      |               |
-| `--ignore-files -i` | Path to ignoreFile (like .gitignore or .npmignore) |
+| Flag                | Description                                        | Default         |
+|---------------------|----------------------------------------------------|-----------------|
+| `--message -m`      | Commit message                                     | `chore: sync`   |
+| `--version -v`      | Print version                                      |                 |
+| `--help -h`         | Show help                                          |                 |
+| `--ignore-files -i` | Path to ignoreFile (like .gitignore or .npmignore) |                 |
+| `--cwd -C`          | Working directory                                  | `process.cwd()` |
 
 ### Pattern examples
 ```js

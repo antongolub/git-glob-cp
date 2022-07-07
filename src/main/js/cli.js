@@ -1,8 +1,12 @@
 #!/usr/bin/env node
 
-import {argv} from 'zx-extra'
+import {argv as _args} from 'zx-extra'
 import {copy} from './index.js'
-import { createRequire } from "node:module"
+import { createRequire } from 'node:module'
+
+const camelize = s => s.replace(/-./g, x => x[1].toUpperCase())
+const normalizeFlags = (flags = {}) => Object.entries(flags).reduce((acc, [k, v]) => ({...acc, [camelize(k)]: v}), {})
+const argv = normalizeFlags(_args)
 
 if (argv.help || argv.h) {
   console.log(`
@@ -10,10 +14,11 @@ if (argv.help || argv.h) {
     ggcp <from> <to> [options]
     
   Options:
-    --help -h           Show help
     --message -m        Message to commit
-    --version -v        Show version
     --ignore-files -i   Path to ignore files (like .gitignore or .npmignore)
+    --cwd -C            Working directory. Defaults to process.cwd()
+    --help -h           Show help
+    --version -v        Show version
 
   Examples:
     ggcp ./*.md git@github.com:antongolub/git-glob-cp.git/test/test -m 'chore: sync'
@@ -29,4 +34,4 @@ if (argv.v || argv.version) {
   process.exit(0)
 }
 
-await copy(argv._.slice(0, -1), argv._.slice(-1)[0], argv.m || argv.message, argv.i || argv.ignoreFiles)
+await copy(argv._[0], argv._[1], argv.m || argv.message, argv.i || argv.ignoreFiles, argv.C || argv.cwd)
