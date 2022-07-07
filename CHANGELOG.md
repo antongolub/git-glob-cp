@@ -1,3 +1,13 @@
+## [1.8.0](https://github.com/antongolub/git-glob-cp/compare/v1.7.3...v1.8.0) (2022-07-07)
+
+### Features
+* feat: add `--cwd` CLI option ([4fd5552](https://github.com/antongolub/git-glob-cp/commit/4fd5552f46214f9eefad65d9f6d098663c2ef9eb))
+
+### Fixes & improvements
+* perf: fail fast on parsing ([cf4d848](https://github.com/antongolub/git-glob-cp/commit/cf4d84848e6e5a9bd95f7d20d53e738bfebc1b68))
+* fix: fix default pattern for git-to-git ([7e1fc3a](https://github.com/antongolub/git-glob-cp/commit/7e1fc3ab994148e4e73a9122622594525dc769a7))
+* perf: update zx-extra to v2.2.0 ([4fe4638](https://github.com/antongolub/git-glob-cp/commit/4fe4638bf05de57ab9c41a27e7f904532498bea4))
+
 ## [1.7.3](https://github.com/antongolub/git-glob-cp/compare/v1.7.2...v1.7.3) (2022-07-03)
 
 ### Fixes & improvements
