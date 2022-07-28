@@ -1,3 +1,8 @@
+## [1.9.1](https://github.com/antongolub/git-glob-cp/compare/v1.9.0...v1.9.1) (2022-07-28)
+
+### Fixes & improvements
+* fix: set git config user.name if not defined ([5be9dfc](https://github.com/antongolub/git-glob-cp/commit/5be9dfcb7c2eb36587b4e8896cfb191699e0025d))
+
 ## [1.9.0](https://github.com/antongolub/git-glob-cp/compare/v1.8.0...v1.9.0) (2022-07-28)
 
 ### Features
