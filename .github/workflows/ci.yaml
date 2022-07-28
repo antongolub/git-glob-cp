@@ -38,11 +38,7 @@ jobs:
 
       - name: Push coverage
         if: github.ref == 'refs/heads/master'
-        env:
-          DEBUG: true
-        run: |
-          node ./src/main/js/cli.js lcov.info https://${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git/coverage/${{ github.sha }} --cwd=${{ github.workspace }}/coverage
-          cat ${{ github.workspace }}/coverage/lcov.info
+        run: node ./src/main/js/cli.js lcov.info https://${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git/coverage/${{ github.sha }} --cwd=${{ github.workspace }}/coverage
 
   test_pr:
     if: ${{ needs.init.outputs.skip == 'false' && github.event_name == 'pull_request' }}
