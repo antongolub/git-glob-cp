@@ -171,6 +171,18 @@ test('parse()', () => {
       }
     ],
     [
+      'https://ghp_token@github.com/antongolub/tsc-esm-fix.git/master/*.json',
+      {
+        base: '<temp>',
+        pattern: '*.json',
+        repo: 'https://ghp_token@github.com/antongolub/tsc-esm-fix.git',
+        branch: 'master',
+        raw: 'https://ghp_token@github.com/antongolub/tsc-esm-fix.git/master/*.json',
+        type: 'git',
+        protocol: 'https'
+      }
+    ],
+    [
       'git@github.com:antongolub/git-glob-cp.git/test/test',
       {
         base: '<temp>',

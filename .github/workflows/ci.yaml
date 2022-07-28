@@ -34,6 +34,10 @@ jobs:
       - name: Run tests
         run: yarn test
 
+      - name: Push coverage
+        if: github.ref == 'refs/heads/master'
+        run: node ./src/main/js/cli.js lcov.info https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git/coverage/${{ github.sha }} --cwd=src/coverage
+
   test_pr:
     if: ${{ needs.init.outputs.skip == 'false' && github.event_name == 'pull_request' }}
     needs: init

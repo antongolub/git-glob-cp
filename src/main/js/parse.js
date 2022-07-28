@@ -6,7 +6,7 @@ export const parse = (target, {cwd = process.cwd(), temp = tempy.temporaryDirect
   parseLocalref(target, {cwd})
 
 const parseGitref = (target, {temp, defaultPattern}) => {
-  const gitref = /^((git@|(?:git|ssh|https):\/\/)(?:(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*(?:[A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9](?::\d+)?)[\/:][A-Za-z0-9-]+\/[A-Za-z0-9-]+\.git)\/([a-z0-9-]+)(?:\/(.+))?$/
+  const gitref = /^((git@|(?:git|ssh|https):\/\/)(?:\S+?@)?(?:(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*(?:[A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9](?::\d+)?)[\/:][A-Za-z0-9-]+\/[A-Za-z0-9-]+\.git)\/([a-z0-9-]+)(?:\/(.+))?$/
 
   if (gitref.test(target)) {
     const [, repo, protocol, branch, pattern = defaultPattern] = gitref.exec(target)
