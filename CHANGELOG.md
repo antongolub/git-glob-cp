@@ -1,3 +1,8 @@
+## [1.9.2](https://github.com/antongolub/git-glob-cp/compare/v1.9.1...v1.9.2) (2022-07-28)
+
+### Fixes & improvements
+* fix: swap git user.name & user.email ([7c47354](https://github.com/antongolub/git-glob-cp/commit/7c473540cd3105d62d48f20df37b6032a30da8ec))
+
 ## [1.9.1](https://github.com/antongolub/git-glob-cp/compare/v1.9.0...v1.9.1) (2022-07-28)
 
 ### Fixes & improvements
