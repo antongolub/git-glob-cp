@@ -59,8 +59,13 @@ const gitFetch = (src, nothrow) => ctx(async ($) => {
 
 const gitPush = (dst, msg) => ctx(async ($) => {
   $.cwd = dst.base
-  await $`git add .`
+  const gitCommitterEmail = $.env.GIT_COMMITTER_EMAIL || (await $.o({nothrow: true})`git config user.email`).stdout.trim() || 'semrel-extra-bot@hotmail.com'
+  const gitCommitterName = $.env.GIT_COMMITTER_NAME || (await $.o({nothrow: true})`git config user.name`).stdout.trim() || 'Semrel Extra Bot'
+
   try {
+    await $`git add .`
+    await $`git config user.name ${gitCommitterEmail}`
+    await $`git config user.email ${gitCommitterName}`
     await $`git commit -m ${msg}`
 
   } catch {
