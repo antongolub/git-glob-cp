@@ -1,3 +1,8 @@
+## [1.9.0](https://github.com/antongolub/git-glob-cp/compare/v1.8.0...v1.9.0) (2022-07-28)
+
+### Features
+* feat: allow basic auth in http refs ([c61e6a4](https://github.com/antongolub/git-glob-cp/commit/c61e6a40981b9c10343c56141aa464d079dd8a1d))
+
 ## [1.8.0](https://github.com/antongolub/git-glob-cp/compare/v1.7.3...v1.8.0) (2022-07-07)
 
 ### Features
