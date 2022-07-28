@@ -38,6 +38,19 @@ test('copy() local pattern to local', () => ctx(async ($) => {
   await $`rm -r temp`
 }))
 
+test('copy() local file to local dir', () => ctx(async ($) => {
+  const from = 'temp/a/foo.txt'
+  const to = 'temp/b'
+
+  await $`mkdir -p temp/a`
+  await $.raw`echo 'foo' > ${$.cwd}/temp/a/foo.txt`
+  await copy(from, to)
+
+  assert.is((await $`cat ${$.cwd}/temp/b/temp/a/foo.txt`).toString().trim(), 'foo')
+
+  await $`rm -r temp`
+}))
+
 test('copy() from remote git to local', () => ctx(async ($) => {
   const from = 'https://github.com/antongolub/tsc-esm-fix.git/master/*.json'
   const to = 'temp'

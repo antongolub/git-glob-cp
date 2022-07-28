@@ -36,7 +36,11 @@ jobs:
 
       - name: Push coverage
         if: github.ref == 'refs/heads/master'
-        run: node ./src/main/js/cli.js lcov.info https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git/coverage/${{ github.sha }} --cwd=src/coverage
+        env:
+          DEBUG: true
+        run: |
+          node ./src/main/js/cli.js lcov.info https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git/coverage/${{ github.sha }} --cwd=${{ github.workspace }}/coverage
+          cat ${{ github.workspace }}/coverage/lcov.info
 
   test_pr:
     if: ${{ needs.init.outputs.skip == 'false' && github.event_name == 'pull_request' }}
@@ -97,7 +101,7 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
           coverageLocations: |
-            ${{github.workspace}}/coverage/*.lcov:lcov
+            ${{ github.workspace }}/coverage/lcov.info:lcov
 
       - name: Create .npmrc
         run: |
