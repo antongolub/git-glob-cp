@@ -19,6 +19,8 @@ jobs:
     needs: init
     if: ${{ needs.init.outputs.skip == 'false' && github.event_name == 'push' }}
     runs-on: ubuntu-20.04
+    permissions:
+      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -39,7 +41,7 @@ jobs:
         env:
           DEBUG: true
         run: |
-          node ./src/main/js/cli.js lcov.info https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git/coverage/${{ github.sha }} --cwd=${{ github.workspace }}/coverage
+          node ./src/main/js/cli.js lcov.info https://${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git/coverage/${{ github.sha }} --cwd=${{ github.workspace }}/coverage
           cat ${{ github.workspace }}/coverage/lcov.info
 
   test_pr:
