@@ -1,3 +1,8 @@
+## [1.9.3](https://github.com/antongolub/git-glob-cp/compare/v1.9.2...v1.9.3) (2022-07-29)
+
+### Fixes & improvements
+* docs: add gh actions usage example ([ec6712b](https://github.com/antongolub/git-glob-cp/commit/ec6712b5338b20177e54fd2e799b32f56d951763))
+
 ## [1.9.2](https://github.com/antongolub/git-glob-cp/compare/v1.9.1...v1.9.2) (2022-07-28)
 
 ### Fixes & improvements
