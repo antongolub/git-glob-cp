@@ -94,7 +94,17 @@ await copydir({
 })
 ```
 
+### GitHub Actions
+For example, push `lcov.info` from the `coverage` dir into the `/<commit-sha>` dir of the `coverage` branch of the remote repo.
+
+```yaml
+  - name: Store coverage
+    run: |
+      npm_config_yes=true npx ggcp lcov.info https://${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git/coverage/${{ github.sha }} --cwd=${{ github.workspace }}/coverage --message='chore: push coverage'
+```
+
 ## References
+* [antongolub/globby-cp](https://github.com/antongolub/globby-cp)
 * [abelnation/globcp](https://github.com/abelnation/globcp#readme)
 * [ufologist/copy-push](https://github.com/ufologist/copy-push#readme)
 
