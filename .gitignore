@@ -115,6 +115,8 @@ docs
 # Coverage
 cc-reporter
 cc-reporter.*
+codeclimate.*
+coverage.*
 
 # Creds
 *.asc
