@@ -107,6 +107,7 @@ For example, push `lcov.info` from the `coverage` dir into the `/<commit-sha>` d
 * [antongolub/globby-cp](https://github.com/antongolub/globby-cp)
 * [abelnation/globcp](https://github.com/abelnation/globcp#readme)
 * [ufologist/copy-push](https://github.com/ufologist/copy-push#readme)
+* [npm/git](https://github.com/npm/git)
 
 ## License
 [MIT](./LICENSE)
