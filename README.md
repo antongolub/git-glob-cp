@@ -72,7 +72,7 @@ ggcp 'https://registry.npmjs.org/ggcp/-/ggcp-1.5.1.tgz/**/*.js' /private/tmp/ggc
 
 ### JS API
 ```js
-import { copy, sync } from 'ggcp'
+import { copy } from 'ggcp'
 
 const from = 'git@github.com:antongolub/tsc-esm-fix.git/master/*.json'
 const to = 'temp'
