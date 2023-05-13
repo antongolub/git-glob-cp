@@ -11,13 +11,7 @@ export const copy = async (
   ignoreFiles,
   cwd
 ) => {
-  if (typeof from === 'object' && !Array.isArray(from) && from !== null) return copy(from.from, from.to, from.msg, from.ignoreFiles, from.cwd)
-  if (!from || !to) throw new Error('Both `from` and `to` arguments are required')
-
-  const src = parse(from, {cwd, defaultPattern: '**/*'})
-  const dst = parse(to, {cwd, defaultPattern: '.'})
-
-  if (/[{}*,]/.test(dst.pattern)) throw new Error('`dest` must not be a glob')
+  const { src, dst } = parseArgs(from, to, msg, ignoreFiles, cwd)
 
   if (dst.type === 'archive') throw new Error('archive as dest is not supported yet')
 
@@ -37,6 +31,24 @@ export const copy = async (
   })
 
   if (dst.type === 'git') await gitPush(dst, msg)
+}
+
+const parseArgs = (
+  from,
+  to,
+  msg = 'chore: sync',
+  ignoreFiles,
+  cwd
+) => {
+  if (typeof from === 'object' && !Array.isArray(from) && from !== null) return parseArgs(from.from, from.to, from.msg, from.ignoreFiles, from.cwd)
+  if (!from || !to) throw new Error('Both `from` and `to` arguments are required')
+
+  const src = parse(from, {cwd, defaultPattern: '**/*'})
+  const dst = parse(to, {cwd, defaultPattern: '.'})
+
+  if (/[{}*,]/.test(dst.pattern)) throw new Error('`dest` must not be a glob')
+
+  return {src, dst, msg}
 }
 
 const unpackArchive = async (src) => {
