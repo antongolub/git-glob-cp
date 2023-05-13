@@ -25,20 +25,19 @@ const parseGitRef = (target, {temp, defaultPattern}) => {
 
 const parseArchiveRef = (target, {temp, cwd, defaultPattern}) => {
   const arcref = /((https?:\/\/)?.+\.(zip|tgz|xz|7z))(?:\/(.+))?$/
+  const [, file, _protocol, format, pattern = defaultPattern] = arcref.exec(target) || []
+  const protocol = _protocol ? _protocol.replaceAll(/[^a-z]/g, '') : 'local'
 
-  if (arcref.test(target)) {
-    const [, file, _protocol, format, pattern = defaultPattern] = arcref.exec(target)
-    const protocol = _protocol ? _protocol.replaceAll(/[^a-z]/g, '') : 'local'
+  if (!file) return
 
-    return {
-      type: 'archive',
-      file: protocol !== 'local' || file.startsWith?.('/') ? file : path.resolve(cwd, file),
-      protocol,
-      format,
-      pattern,
-      raw: target,
-      base: temp
-    }
+  return {
+    type: 'archive',
+    file: protocol !== 'local' || file.startsWith?.('/') ? file : path.resolve(cwd, file),
+    protocol,
+    format,
+    pattern,
+    raw: target,
+    base: temp
   }
 }
 
