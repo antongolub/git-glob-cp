@@ -1,3 +1,8 @@
+## [1.9.4](https://github.com/antongolub/git-glob-cp/compare/v1.9.3...v1.9.4) (2023-05-13)
+
+### Fixes & improvements
+* perf: up deps ([6533eb8](https://github.com/antongolub/git-glob-cp/commit/6533eb8f967dbf30f2ef653acd26648f30082432))
+
 ## [1.9.3](https://github.com/antongolub/git-glob-cp/compare/v1.9.2...v1.9.3) (2022-07-29)
 
 ### Fixes & improvements
