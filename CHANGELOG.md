@@ -1,3 +1,8 @@
+## [1.10.0](https://github.com/antongolub/git-glob-cp/compare/v1.9.4...v1.10.0) (2023-05-13)
+
+### Features
+* feat: add ts typings ([5896f9c](https://github.com/antongolub/git-glob-cp/commit/5896f9c12aa2eca12a0fbfa9ee5118c62761d005))
+
 ## [1.9.4](https://github.com/antongolub/git-glob-cp/compare/v1.9.3...v1.9.4) (2023-05-13)
 
 ### Fixes & improvements
