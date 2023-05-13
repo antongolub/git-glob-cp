@@ -1,3 +1,8 @@
+## [1.10.1](https://github.com/antongolub/git-glob-cp/compare/v1.10.0...v1.10.1) (2023-05-13)
+
+### Fixes & improvements
+* refactor: separate opts normalizer ([2cc897c](https://github.com/antongolub/git-glob-cp/commit/2cc897c2db2a3e39b979bf208525ccd28cf0d8bf))
+
 ## [1.10.0](https://github.com/antongolub/git-glob-cp/compare/v1.9.4...v1.10.0) (2023-05-13)
 
 ### Features
