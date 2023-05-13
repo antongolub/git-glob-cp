@@ -81,8 +81,8 @@ export const download = (async (url, file = tempy.temporaryFile()) => {
   const fileStream = fs.createWriteStream(file)
   await new Promise((resolve, reject) => {
     res.body.pipe(fileStream)
-    res.body.on("error", reject)
-    fileStream.on("finish", resolve)
+    res.body.on('error', reject)
+    fileStream.on('finish', resolve)
   })
 
   return file
