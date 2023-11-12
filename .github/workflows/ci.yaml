@@ -27,7 +27,7 @@ jobs:
       - name: Push coverage
         if: github.ref == 'refs/heads/master'
         run: |
-          node ./src/main/js/cli.js lcov.info https://${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git/coverage/${{ github.event.repository.updated_at }}-${{ github.sha }} --cwd=${{ github.workspace }}/coverage --message='chore: push coverage for ${{ github.sha }}'
+          node ./src/main/js/cli.js lcov.info https://${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git/coverage/$(date +%Y%m%d%H%M)-${{ github.sha }} --cwd=${{ github.workspace }}/coverage --message='chore: push coverage for ${{ github.sha }}'
 
   test_pr:
     if: ${{ github.event_name == 'pull_request' }}
