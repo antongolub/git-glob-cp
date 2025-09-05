@@ -1,3 +1,8 @@
+## [1.10.2](https://github.com/antongolub/git-glob-cp/compare/v1.10.1...v1.10.2) (2025-09-05)
+
+### Fixes & improvements
+* fix: up deps ([67f0747](https://github.com/antongolub/git-glob-cp/commit/67f0747d53d39b8307375acb82e5078fa3fceb5d))
+
 ## [1.10.1](https://github.com/antongolub/git-glob-cp/compare/v1.10.0...v1.10.1) (2023-05-13)
 
 ### Fixes & improvements
