@@ -1,30 +1,31 @@
 import {suite} from 'uvu'
 import * as assert from 'uvu/assert'
-import {ctx, tempy, path, fs} from 'zx-extra'
+import {$, tempy, path, fs} from 'zx-extra'
 import {copy} from '../../main/js/index.js'
 import {parse} from '../../main/js/parse.js'
-import tar from 'tar'
+import * as tar from 'tar'
 
 const test = suite('index')
+const $r = $({quote: v => v})
 
-test('copy() abs to abs', () => ctx(async ($) => {
+test('copy() abs to abs', async () => {
   const from = tempy.temporaryDirectory()
   const to = tempy.temporaryDirectory()
 
-  await $.raw`echo 'foo' > ${from}/foo.txt`
+  await $r`echo 'foo' > ${from}/foo.txt`
   await copy(from, to)
 
   assert.is((await $`cat ${to}/foo.txt`).toString().trim(), 'foo')
-}))
+})
 
-test('copy() local pattern to local', () => ctx(async ($) => {
+test('copy() local pattern to local', async () => {
   const from = 'temp/a/*.txt'
   const to = 'temp/b'
 
   await $`mkdir -p temp/a`
-  await $.raw`echo 'foo' > ${$.cwd}/temp/a/foo.txt`
-  await $.raw`echo 'bar' > ${$.cwd}/temp/a/bar.txt`
-  await $.raw`echo 'baz' > ${$.cwd}/temp/a/baz.js`
+  await $r`echo 'foo' > ${$.cwd}/temp/a/foo.txt`
+  await $r`echo 'bar' > ${$.cwd}/temp/a/bar.txt`
+  await $r`echo 'baz' > ${$.cwd}/temp/a/baz.js`
   await copy(from, to)
 
   assert.is((await $`cat ${$.cwd}/temp/b/temp/a/foo.txt`).toString().trim(), 'foo')
@@ -36,22 +37,22 @@ test('copy() local pattern to local', () => ctx(async ($) => {
   }
 
   await $`rm -r temp`
-}))
+})
 
-test('copy() local file to local dir', () => ctx(async ($) => {
+test('copy() local file to local dir', async () => {
   const from = 'temp/a/foo.txt'
   const to = 'temp/b'
 
   await $`mkdir -p temp/a`
-  await $.raw`echo 'foo' > ${$.cwd}/temp/a/foo.txt`
+  await $r`echo 'foo' > ${$.cwd}/temp/a/foo.txt`
   await copy(from, to)
 
   assert.is((await $`cat ${$.cwd}/temp/b/temp/a/foo.txt`).toString().trim(), 'foo')
 
   await $`rm -r temp`
-}))
+})
 
-test('copy() from remote git to local', () => ctx(async ($) => {
+test('copy() from remote git to local', async () => {
   const from = 'https://github.com/antongolub/tsc-esm-fix.git/master/*.json'
   const to = 'temp'
 
@@ -61,9 +62,9 @@ test('copy() from remote git to local', () => ctx(async ($) => {
   assert.is(JSON.parse((await $`cat ${$.cwd}/temp/typedoc.json`).toString().trim()).name, 'tsc-esm-fix')
 
   await $`rm -r temp`
-}))
+})
 
-test('copy() from git to git', () => ctx(async ($) => {
+test('copy() from git to git', async () => {
   const from = 'https://github.com/antongolub/tsc-esm-fix.git/master/*.json'
   const to = 'https://antongolub.com/fake/repo.git/test'
 
@@ -72,18 +73,18 @@ test('copy() from git to git', () => ctx(async ($) => {
   } catch (e) {
     assert.is(e.stderr.trim(), `fatal: repository 'https://antongolub.com/fake/repo.git/' not found`)
   }
-}))
+})
 
-test('copy() throws err on invalid args', () => ctx(async ($) => {
+test('copy() throws err on invalid args', async () => {
   try {
     await copy()
     assert.fail()
   } catch (e) {
     assert.match(e.message, 'Both `from` and `to` arguments are required')
   }
-}))
+})
 
-test('copy() from local archive', () => ctx(async ($) => {
+test('copy() from local archive', async () => {
   const temp = tempy.temporaryDirectory()
   await fs.outputFile(path.resolve(temp, 'foo.txt'), 'foo')
   await fs.outputFile(path.resolve(temp, 'foo.js'), 'foo')
@@ -100,7 +101,7 @@ test('copy() from local archive', () => ctx(async ($) => {
   assert.ok((!await fs.pathExists(path.resolve(temp, 'unpacked/foo.txt'))))
   assert.ok(await fs.pathExists(path.resolve(temp, 'unpacked/foo.js')))
   assert.is((await fs.readFile(path.resolve(temp, 'unpacked/foo.js'))).toString('utf8'), 'foo')
-}))
+})
 
 test('copy() fails if dst is a pattern', async () => {
   try {
@@ -126,7 +127,7 @@ test('copy() fails if dst is an archive', async () => {
   }
 })
 
-test('copy() from remote archive', () => ctx(async ($) => {
+test('copy() from remote archive', async () => {
   const temp = tempy.temporaryDirectory()
 
   await copy({
@@ -137,7 +138,7 @@ test('copy() from remote archive', () => ctx(async ($) => {
 
   assert.ok((!await fs.pathExists(path.resolve(temp, 'package/package.json'))))
   assert.ok((await fs.pathExists(path.resolve(temp, 'package/src/main/js/index.js'))))
-}))
+})
 
 test('parse()', () => {
   const cases = [

@@ -1,8 +1,8 @@
-import {fs, tempy, ctx, $, fetch, copy as _copy} from 'zx-extra'
-import tar from 'tar'
-import {parse} from './parse.js'
-
-$.verbose = $.env.DEBUG ? 1 : 0
+import { pipeline, Readable } from 'node:stream'
+import { promisify } from 'node:util'
+import { fs, tempy, $ as _$, fetch, copy as _copy } from 'zx-extra'
+import * as tar from 'tar'
+import { parse } from './parse.js'
 
 export const copy = async (
   from,
@@ -26,7 +26,7 @@ export const copy = async (
     from: src.pattern,
     baseTo: dst.base,
     to: dst.pattern,
-    debug: $.verbose ? console.log : () => {},
+    debug: _$.env.DEBUG ? console.log : () => {},
     ignoreFiles,
   })
 
@@ -58,8 +58,12 @@ const unpackArchive = async (src) => {
   if (fs.statSync(src.file).isFile()) await tar.x({ file: src.file, cwd: src.base })
 }
 
-const gitFetch = (src, nothrow) => ctx(async ($) => {
-  $.cwd = src.base
+const gitFetch = async (src, nothrow) => {
+  const $ = _$({
+    cwd: src.base,
+    verbose: !!_$.env.DEBUG,
+  })
+
   try {
     await $`git clone --single-branch --branch ${src.branch} --depth 1 ${src.repo} .`
   } catch (e) {
@@ -68,14 +72,19 @@ const gitFetch = (src, nothrow) => ctx(async ($) => {
     await $`git init`
     await $`git remote add origin ${src.repo}`
   }
-})
+}
 
-const getGitConfig = async (name, cwd) => (await $.o({nothrow: true, cwd})`git config ${name}`).stdout.trim()
+const getGitConfig = async (name, cwd) => (await _$({nothrow: true, cwd})`git config ${name}`).stdout.trim()
 
-const gitPush = (dst, msg) => ctx(async ($) => {
-  $.cwd = dst.base
-  const gitCommitterEmail = $.env.GIT_COMMITTER_EMAIL || await getGitConfig('user.email', $.cwd) || 'semrel-extra-bot@hotmail.com'
-  const gitCommitterName = $.env.GIT_COMMITTER_NAME || await getGitConfig('user.name', $.cwd) || 'Semrel Extra Bot'
+const gitPush = async (dst, msg) => {
+  const cwd = dst.base
+  const $ = _$({
+    cwd,
+    verbose: !!_$.env.DEBUG,
+  })
+
+  const gitCommitterEmail = _$.env.GIT_COMMITTER_EMAIL || await getGitConfig('user.email', cwd) || 'semrel-extra-bot@hotmail.com'
+  const gitCommitterName = _$.env.GIT_COMMITTER_NAME || await getGitConfig('user.name', cwd) || 'Semrel Extra Bot'
 
   try {
     await $`git config user.name ${gitCommitterName}`
@@ -88,20 +97,26 @@ const gitPush = (dst, msg) => ctx(async ($) => {
     return
   }
 
-  await $.raw`git push origin HEAD:refs/heads/${dst.branch}`
-})
+  await $`git push origin HEAD:refs/heads/${dst.branch}`
+}
 
-export const download = (async (url, file = tempy.temporaryFile()) => {
+export const download = async (url, file = tempy.temporaryFile()) => {
   const res = await fetch(url)
+
+  if (!res.ok)
+    throw new Error(`Failed to fetch ${url}: ${res.statusText}`)
+
+  const streamPipeline = promisify(pipeline)
   const fileStream = fs.createWriteStream(file)
-  await new Promise((resolve, reject) => {
-    res.body.pipe(fileStream)
-    res.body.on('error', reject)
-    fileStream.on('finish', resolve)
-  })
+  const body =
+    typeof res.body.pipe === 'function'
+      ? res.body
+      : Readable.fromWeb(res.body)
+
+  await streamPipeline(body, fileStream)
 
   return file
-})
+}
 
 export const ggcp = copy
 
