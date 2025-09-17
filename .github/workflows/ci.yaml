@@ -52,6 +52,15 @@ jobs:
       - name: Run tests
         run: yarn test
 
+      - uses: actions/upload-artifact@v4
+        if: github.ref == 'refs/heads/master'
+        with:
+          name: build
+          path: |
+            coverage
+            package.json
+          retention-days: 1
+
   test_pr:
     needs: build
     if: ${{ github.event_name == 'pull_request' }}
