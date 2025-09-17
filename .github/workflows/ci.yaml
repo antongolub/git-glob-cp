@@ -84,8 +84,14 @@ jobs:
         timeout-minutes: 1
 
   release:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    permissions:
+      checks: read
+      statuses: write
+      contents: write
+      packages: write
+      id-token: write
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
@@ -108,11 +114,11 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GH_USER: 'antongolub'
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GIT_COMMITTER_EMAIL: 'antongolub@antongolub.com'
           GIT_COMMITTER_NAME: 'Anton Golub'
         run: npx zx-semrel
 
       - name: Push coverage
         run: |
-          node ./src/main/js/cli.js lcov.info https://${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git/coverage/${{ github.event.repository.updated_at }}-${{ github.sha }} --cwd=${{ github.workspace }}/coverage --message='chore: push coverage for ${{ github.sha }}'
+          node ./src/main/js/cli.js lcov.info https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git/coverage/${{ github.event.repository.updated_at }}-${{ github.sha }} --cwd=${{ github.workspace }}/coverage --message='chore: push coverage for ${{ github.sha }}'
