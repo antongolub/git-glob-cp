@@ -121,4 +121,5 @@ jobs:
 
       - name: Push coverage
         run: |
-          npx ggcp lcov.info https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git/coverage/${{ github.event.repository.updated_at }}-${{ github.sha }} --cwd=${{ github.workspace }}/coverage --message='chore: push coverage for ${{ github.sha }}'
+          yarn install --prod
+          node ./src/main/js/cli.js lcov.info https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git/coverage/${{ github.event.repository.updated_at }}-${{ github.sha }} --cwd=${{ github.workspace }}/coverage --message='chore: push coverage for ${{ github.sha }}'
