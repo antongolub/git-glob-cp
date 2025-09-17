@@ -55,7 +55,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: github.ref == 'refs/heads/master'
         with:
-          name: build
+          name: coverage
           path: |
             coverage
             package.json
@@ -115,9 +115,7 @@ jobs:
           node-version: 24
           cache: 'yarn'
 
-      - uses: actions/download-artifact@v5
-        with:
-          name: build
+      - uses: actions/download-artifact@v5 # with empty should download all
 
       - name: Release
         env:
