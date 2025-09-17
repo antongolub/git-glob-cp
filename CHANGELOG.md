@@ -1,3 +1,8 @@
+## [1.10.3](https://github.com/antongolub/git-glob-cp/compare/v1.10.2...v1.10.3) (2025-09-17)
+
+### Fixes & improvements
+* perf: tech release ([612e0cb](https://github.com/antongolub/git-glob-cp/commit/612e0cb9713c852f5c7ba5993071b4f350a52072))
+
 ## [1.10.2](https://github.com/antongolub/git-glob-cp/compare/v1.10.1...v1.10.2) (2025-09-05)
 
 ### Fixes & improvements
