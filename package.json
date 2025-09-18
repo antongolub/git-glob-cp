@@ -34,7 +34,7 @@
   "homepage": "https://github.com/antongolub/git-glob-cp#readme",
   "dependencies": {
     "tar": "^7.4.3",
-    "zx-extra": "^4.0.15"
+    "zx-extra": "^4.0.16"
   },
   "devDependencies": {
     "c8": "^10.1.3",
