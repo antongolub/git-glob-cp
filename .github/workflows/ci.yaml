@@ -132,6 +132,6 @@ jobs:
 
       - name: Push coverage
         run: |
+          pwd && ls -l
           yarn install --prod
-          ls -l
           node ./src/main/js/cli.js ${{ github.workspace }}/coverage/lcov.info https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git/coverage/${{ github.event.repository.updated_at }}-${{ github.sha }} --message='chore: push coverage for ${{ github.sha }}'
