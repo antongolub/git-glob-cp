@@ -4,13 +4,14 @@ import { fs, tempy, $ as _$, fetch, copy as _copy } from 'zx-extra'
 import * as tar from 'tar'
 import { parse } from './parse.js'
 
-export const copy = async (
-  from,
-  to,
-  msg = 'chore: sync',
-  ignoreFiles,
-  cwd
-) => {
+export const copy = async (opts = {}, ...rest) => {
+  // Legacy support for old signature
+  if (typeof opts === 'string' || Array.isArray(opts)) {
+    const [to, msg, ignoreFiles, cwd] = rest
+    return copy({ from: opts, to, msg, ignoreFiles, cwd })
+  }
+
+  const { from, to, msg = 'chore: sync', ignoreFiles, cwd} = opts
   const { src, dst } = parseArgs(from, to, msg, ignoreFiles, cwd)
 
   if (dst.type === 'archive') throw new Error('archive as dest is not supported yet')
@@ -47,7 +48,7 @@ const parseArgs = (
   const src = parse(from, {cwd, defaultPattern: '**/*'})
   const dst = parse(to, {cwd, defaultPattern: '.'})
 
-  if (/[{}*,]/.test(dst.pattern)) throw new Error('`dest` must not be a glob')
+  if (/[{}*,!]/.test(dst.pattern)) throw new Error('`dest` must not be a glob')
 
   return {src, dst, msg}
 }

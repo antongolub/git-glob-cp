@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import {argv as _args} from 'zx-extra'
-import {copy} from './index.js'
+import { argv as _args } from 'zx-extra'
+import { copy } from './index.js'
 import { createRequire } from 'node:module'
 
 const camelize = s => s.replace(/-./g, x => x[1].toUpperCase())
@@ -34,4 +34,16 @@ if (argv.v || argv.version) {
   process.exit(0)
 }
 
-await copy(argv._[0], argv._[1], argv.m || argv.message, argv.i || argv.ignoreFiles, argv.C || argv.cwd)
+await copy({
+  from:         argv._[0],
+  to:           argv._[1],
+  msg:          argv.m || argv.message,
+  cwd:          argv.C || argv.cwd,
+  ignoreFiles:  argv.i || argv.ignoreFiles
+}).then(
+  () => process.exit(0),
+  err => {
+    console.error(err)
+    process.exit(1)
+  }
+)

@@ -82,16 +82,6 @@ const ignoreFiles = '.gitignore'
 // Copy any to any
 await copy(from, to, msg, ignoreFiles)
 await copy({from, to, msg, ignoreFiles}) // opts-based syntax
-
-// Synchronizes dirs only
-await copydir({
-  from,       // Relative dir / glob pattern(s)
-  baseFrom,   // Base dir. Defaults to process.cwd()
-  to,         // Rel path.
-  baseTo,     // Base dir. Defaults to process.cwd()
-  debug,      // Debugger. Defauts to noop
-  ignoreFiles // Glob patterns to look for ignore files. string | string[]
-})
 ```
 
 ### GitHub Actions
