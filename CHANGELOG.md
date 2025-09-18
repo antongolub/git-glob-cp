@@ -1,3 +1,9 @@
+## [1.10.4](https://github.com/antongolub/git-glob-cp/compare/v1.10.3...v1.10.4) (2025-09-18)
+
+### Fixes & improvements
+* perf: up deps, migrate to vitest ([271b363](https://github.com/antongolub/git-glob-cp/commit/271b363048dadc7594ea57223907d5d8705c9edb))
+* perf: up deps ([3b291d0](https://github.com/antongolub/git-glob-cp/commit/3b291d0e831666f45e275a6c497cc08f5cf7d1d1))
+
 ## [1.10.3](https://github.com/antongolub/git-glob-cp/compare/v1.10.2...v1.10.3) (2025-09-17)
 
 ### Fixes & improvements
