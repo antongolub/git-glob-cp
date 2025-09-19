@@ -24,7 +24,7 @@ jobs:
         with:
           name: build
           path: |
-            ./docs
+            docs
             package.json
           retention-days: 1
 
@@ -123,6 +123,11 @@ jobs:
         with:
           merge-multiple: true
           path: .
+
+      - name: Check artifacts
+        run: |
+          ls -l
+          cd coverage && ls -l
 
       - name: Release
         env:
