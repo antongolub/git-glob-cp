@@ -1,3 +1,8 @@
+## [1.10.5](https://github.com/antongolub/git-glob-cp/compare/v1.10.4...v1.10.5) (2025-09-19)
+
+### Fixes & improvements
+* perf: explicitly resolve abs cwd ([3d5ddfd](https://github.com/antongolub/git-glob-cp/commit/3d5ddfd5e377df7b82c1b50d1d430d3a8668f4b3))
+
 ## [1.10.4](https://github.com/antongolub/git-glob-cp/compare/v1.10.3...v1.10.4) (2025-09-18)
 
 ### Fixes & improvements
