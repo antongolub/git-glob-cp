@@ -132,6 +132,6 @@ jobs:
 
       - name: Push coverage
         run: |
-          pwd && ls -l
+          [ -e ${{ github.workspace }}/coverage/lcov.info ] && echo "exists" || echo "missing"
           yarn install --prod
           node ./src/main/js/cli.js ${{ github.workspace }}/coverage/lcov.info https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git/coverage/${{ github.event.repository.updated_at }}-${{ github.sha }} --message='chore: push coverage for ${{ github.sha }}'
