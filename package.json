@@ -1,7 +1,7 @@
 {
   "name": "git-glob-cp",
   "alias": "ggcp",
-  "version": "1.10.6",
+  "version": "1.11.0",
   "description": "glob-aware two-way copying for git",
   "type": "module",
   "bin": {

@@ -1,3 +1,8 @@
+## [1.11.0](https://github.com/antongolub/git-glob-cp/compare/v1.10.6...v1.11.0) (2025-09-19)
+
+### Features
+* feat: shortcut syntax `from` with base ([8150106](https://github.com/antongolub/git-glob-cp/commit/815010679ee637fe03557bf12d603cdd8a5934aa))
+
 ## [1.10.6](https://github.com/antongolub/git-glob-cp/compare/v1.10.5...v1.10.6) (2025-09-19)
 
 ### Fixes & improvements
