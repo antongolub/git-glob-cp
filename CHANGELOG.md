@@ -1,3 +1,8 @@
+## [1.10.6](https://github.com/antongolub/git-glob-cp/compare/v1.10.5...v1.10.6) (2025-09-19)
+
+### Fixes & improvements
+* fix: handle trailing `/` in git refs ([5ca347f](https://github.com/antongolub/git-glob-cp/commit/5ca347f24f33f8c8e1bffa8a164b8eaf960eee0b))
+
 ## [1.10.5](https://github.com/antongolub/git-glob-cp/compare/v1.10.4...v1.10.5) (2025-09-19)
 
 ### Fixes & improvements
