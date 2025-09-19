@@ -1,6 +1,6 @@
 import { pipeline, Readable } from 'node:stream'
 import { promisify } from 'node:util'
-import { fs, tempy, $ as _$, fetch, copy as _copy } from 'zx-extra'
+import { fs, path, tempy, $ as _$, fetch, copy as _copy } from 'zx-extra'
 import * as tar from 'tar'
 import { parse } from './parse.js'
 
@@ -12,14 +12,13 @@ export const copy = async (opts = {}, ...rest) => {
   }
 
   const { from, to, msg = 'chore: sync', ignoreFiles, cwd} = opts
+  if (!from || !to) throw new Error('Both `from` and `to` arguments are required')
+
   const { src, dst } = parseArgs(from, to, msg, ignoreFiles, cwd)
 
   if (dst.type === 'archive') throw new Error('archive as dest is not supported yet')
-
   if (src.type === 'archive') await unpackArchive(src)
-
   if (src.type === 'git') await gitFetch(src)
-
   if (dst.type === 'git') await gitFetch(dst, true)
 
   await _copy({
@@ -39,12 +38,9 @@ const parseArgs = (
   to,
   msg = 'chore: sync',
   ignoreFiles,
-  cwd
+  _cwd
 ) => {
-  if (typeof from === 'object' && !Array.isArray(from) && from !== null) return parseArgs(from.from, from.to, from.msg, from.ignoreFiles, from.cwd)
-
-  if (!from || !to) throw new Error('Both `from` and `to` arguments are required')
-
+  const cwd = path.resolve(process.cwd(), _cwd || '.')
   const src = parse(from, {cwd, defaultPattern: '**/*'})
   const dst = parse(to, {cwd, defaultPattern: '.'})
 
