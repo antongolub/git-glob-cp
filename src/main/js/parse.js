@@ -1,5 +1,23 @@
 import {path, tempy} from 'zx-extra'
 
+export const parseArgs = (
+  from,
+  to,
+  msg = 'chore: sync',
+  ignoreFiles,
+  _cwd
+) => {
+  const [f, c] = from.split('>', 2).reverse()
+  const cwd = path.resolve(process.cwd(), _cwd || '.')
+  const srcCwd = c ? path.resolve(process.cwd(), c) : cwd
+  const src = parse(f, {cwd: srcCwd, defaultPattern: '**/*'})
+  const dst = parse(to, {cwd, defaultPattern: '.'})
+
+  if (/[{}*,!]/.test(dst.pattern)) throw new Error('`dest` must not be a glob')
+
+  return {src, dst, msg}
+}
+
 export const parse = (target, {cwd = process.cwd(), temp = tempy.temporaryDirectory(), defaultPattern} = {}) =>
   parseGitRef(target, {temp, defaultPattern}) ||
   parseArchiveRef(target, {temp, cwd, defaultPattern}) ||

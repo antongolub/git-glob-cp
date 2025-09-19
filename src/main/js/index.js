@@ -1,8 +1,8 @@
 import { pipeline, Readable } from 'node:stream'
 import { promisify } from 'node:util'
-import { fs, path, tempy, $ as _$, fetch, copy as _copy } from 'zx-extra'
+import { fs, tempy, $ as _$, fetch, copy as _copy } from 'zx-extra'
 import * as tar from 'tar'
-import { parse } from './parse.js'
+import { parseArgs } from './parse.js'
 
 export const copy = async (opts = {}, ...rest) => {
   // Legacy support for old signature
@@ -31,22 +31,6 @@ export const copy = async (opts = {}, ...rest) => {
   })
 
   if (dst.type === 'git') await gitPush(dst, msg)
-}
-
-const parseArgs = (
-  from,
-  to,
-  msg = 'chore: sync',
-  ignoreFiles,
-  _cwd
-) => {
-  const cwd = path.resolve(process.cwd(), _cwd || '.')
-  const src = parse(from, {cwd, defaultPattern: '**/*'})
-  const dst = parse(to, {cwd, defaultPattern: '.'})
-
-  if (/[{}*,!]/.test(dst.pattern)) throw new Error('`dest` must not be a glob')
-
-  return {src, dst, msg}
 }
 
 const unpackArchive = async (src) => {

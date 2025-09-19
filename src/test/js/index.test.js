@@ -4,7 +4,7 @@ import { $, tempy, path, fs } from 'zx-extra'
 import * as tar from 'tar'
 
 import { copy } from '../../main/js/index.js'
-import { parse } from '../../main/js/parse.js'
+import { parse, parseArgs } from '../../main/js/parse.js'
 
 const $r = $({quote: v => v})
 
@@ -140,6 +140,35 @@ describe('JS API', () => {
 
     assert.ok((!await fs.pathExists(path.resolve(temp, 'package/package.json'))))
     assert.ok((await fs.pathExists(path.resolve(temp, 'package/src/main/js/index.js'))))
+  })
+
+  test('parseArgs()', () => {
+    const cases = [
+      {
+        input: ['foo/bar>sub/**/*', 'target/dir'],
+        expected: {
+          src: {
+            base: path.resolve(process.cwd(), 'foo/bar'),
+            pattern: 'sub/**/*',
+            raw: 'sub/**/*',
+            type: 'local'
+          },
+          dst: {
+            base: process.cwd(),
+            pattern: 'target/dir',
+            raw: 'target/dir',
+            type: 'local'
+          },
+          msg: 'chore: sync'
+        }
+      }
+    ]
+
+    for (const { input, expected } of cases) {
+      const result = parseArgs(...input)
+      assert.deepEqual(result.src, expected.src)
+      assert.deepEqual(result.dst, expected.dst)
+    }
   })
 
   test('parse()', () => {

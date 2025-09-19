@@ -35,8 +35,8 @@ if (argv.v || argv.version) {
 }
 
 await copy({
-  from:         argv._[0],
-  to:           argv._[1],
+  from:         argv.from || argv._[0],
+  to:           argv.to || argv._[1],
   msg:          argv.m || argv.message,
   cwd:          argv.C || argv.cwd,
   ignoreFiles:  argv.i || argv.ignoreFiles
