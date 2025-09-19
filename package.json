@@ -14,7 +14,7 @@
   },
   "types": "./src/main/js/index.d.ts",
   "scripts": {
-    "build": "npm run build:docs",
+    "build": "yarn run build:docs",
     "build:docs": "mkdir -p docs && cp ./README.md ./docs/README.md",
     "test": "vitest run --config ./vitest.config.js"
   },

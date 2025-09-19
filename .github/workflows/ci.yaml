@@ -19,7 +19,7 @@ jobs:
           node-version: 24
           cache: 'yarn'
       - run: yarn
-      - run: yarn run docs
+      - run: yarn run build
       - uses: actions/upload-artifact@v4
         with:
           name: build
