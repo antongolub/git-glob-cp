@@ -122,7 +122,6 @@ jobs:
       - uses: actions/download-artifact@v5
         with:
           merge-multiple: true
-          path: .
 
       - name: Check artifacts
         run: |
